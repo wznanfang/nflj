@@ -53,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService());
-//        auth.inMemoryAuthentication().withUser("wzp").password(new BCryptPasswordEncoder().encode("123456")).roles("admin"); //将用户写在内存里
     }
 
 
