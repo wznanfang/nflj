@@ -44,11 +44,5 @@ custom-config:
   dbUsername: root
   dbPassword: 123456
   ipData: E:\ipData\ip2region.db
-  fileSave: E:\wule
-  wxAppletAppID: test
-  wxAppletAppSecret: test
-  smsAk: LTAI4GBT4c92BzUauVLizpgZ
-  smsAs: W9hOSaK0uO6k495u37Vxbn6FB3046M
-  smsRegion: cn-qingdao
 
 

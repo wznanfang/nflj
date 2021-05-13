@@ -20,9 +20,8 @@ server:
 
 #自定义
 custom-config:
-  passwordPrefix: nflj
   resourceId: nflj
   withClient: appWeb-nflj-manage
-  codeExpire: 5 # 过期时间15分钟
+  secret: nflj
   originalPassword: nflj123456
 

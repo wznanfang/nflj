@@ -36,6 +36,7 @@ dependencies {
     implementation "com.vladmihalcea:hibernate-types-52:2.11.1"
     implementation "com.github.xiaoymin:knife4j-spring-boot-starter:3.0.2"
     implementation "org.lionsoul:ip2region:1.7.2"
+    implementation "com.alibaba:fastjson:1.2.76"
 
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
