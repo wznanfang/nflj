@@ -18,6 +18,8 @@ public class CustomConfig {
     public static String resourceId;
     public static String ipData;
     public static String originalPassword;
+    public static String fileSave;
+    public static String publicNetWork;
 
 
     public String getWithClient() {
@@ -58,5 +60,21 @@ public class CustomConfig {
 
     public void setOriginalPassword(String originalPassword) {
         CustomConfig.originalPassword = originalPassword;
+    }
+
+    public String getFileSave() {
+        return fileSave;
+    }
+
+    public void setFileSave(String fileSave) {
+        CustomConfig.fileSave = fileSave;
+    }
+
+    public String getPublicNetWork() {
+        return publicNetWork;
+    }
+
+    public void setPublicNetWork(String publicNetWork) {
+        CustomConfig.publicNetWork = publicNetWork;
     }
 }

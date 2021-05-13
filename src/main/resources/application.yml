@@ -24,4 +24,5 @@ custom-config:
   withClient: appWeb-nflj-manage
   secret: nflj
   originalPassword: nflj123456
+  publicNetWork: http://ip.chinaz.com
 
