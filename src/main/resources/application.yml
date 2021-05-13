@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 80
+      idle-timeout: 500
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+server:
+  port: 9999
+  max-http-header-size: 10000000
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+
+#自定义
+custom-config:
+  passwordPrefix: nflj
+  resourceId: nflj
+  withClient: appWeb-nflj-manage
+  codeExpire: 5 # 过期时间15分钟
+  originalPassword: nflj123456
+
