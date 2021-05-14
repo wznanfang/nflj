@@ -83,7 +83,7 @@ public class AdminController extends BaseConfig {
             return Result.error(ResultCodeEnum.FORBIDDEN);
         }
         map1.put("admin", admin);
-        map1.put("token", responseEntity);
+        map1.put("token", responseEntity.getBody());
         return Result.ok(map1);
     }
 
