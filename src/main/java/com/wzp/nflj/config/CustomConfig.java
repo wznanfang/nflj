@@ -20,6 +20,7 @@ public class CustomConfig {
     public static String originalPassword;
     public static String fileSave;
     public static String publicNetWork;
+    public static String excelSavePath;
 
 
     public String getWithClient() {
@@ -76,5 +77,13 @@ public class CustomConfig {
 
     public void setPublicNetWork(String publicNetWork) {
         CustomConfig.publicNetWork = publicNetWork;
+    }
+
+    public String getExcelSavePath() {
+        return excelSavePath;
+    }
+
+    public void setExcelSavePath(String excelSavePath) {
+        CustomConfig.excelSavePath = excelSavePath;
     }
 }

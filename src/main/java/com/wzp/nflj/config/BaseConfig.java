@@ -10,23 +10,25 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: zp.wei
@@ -52,6 +54,45 @@ public class BaseConfig {
     private UserRepository userRepository;
     @Resource
     private AdminRepository adminRepository;
+
+
+    /**
+     * 获取token
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public ResponseEntity getToken(String username, String password) {
+        Map<String, String> map = new HashMap<>();
+        map.put("username", username);
+        map.put("password", password);
+        map.put("grant_type", "password");
+        ResponseEntity<OAuth2AccessToken> responseEntity = null;
+        try {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(CustomConfig.withClient, CustomConfig.secret, null);
+            responseEntity = tokenEndpoint.postAccessToken(authentication, map);
+            log.info(String.valueOf(responseEntity.getBody()));
+        } catch (Exception e) {
+            log.error("授权失败");
+            log.error(String.valueOf(e));
+        }
+        return responseEntity;
+    }
+
+
+    /**
+     * 移除token
+     *
+     * @param username
+     */
+    public void removeToken(String username) {
+        String key = "uname_to_access:" + CustomConfig.withClient + ":" + username;
+        DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) redisTemplate.opsForList().index(key, 0);
+        if (defaultOAuth2AccessToken != null && defaultOAuth2AccessToken.getValue() != null) {
+            consumerTokenServices.revokeToken(defaultOAuth2AccessToken.getValue());
+        }
+    }
 
 
     /**
@@ -112,31 +153,6 @@ public class BaseConfig {
         }
         User user = userRepository.findByUsername(username);
         return user;
-    }
-
-
-    /**
-     * 获取当前用户的权限
-     *
-     * @return
-     */
-    protected Collection getAuthorities() {
-        Collection collection = getAuthentication().getAuthorities();
-        return collection;
-    }
-
-
-    /**
-     * 移除token
-     *
-     * @param username
-     */
-    public void removeToken(String username) {
-        String key = "uname_to_access:" + CustomConfig.withClient + ":" + username;
-        DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) redisTemplate.opsForList().index(key, 0);
-        if (defaultOAuth2AccessToken != null && defaultOAuth2AccessToken.getValue() != null) {
-            consumerTokenServices.revokeToken(defaultOAuth2AccessToken.getValue());
-        }
     }
 
 

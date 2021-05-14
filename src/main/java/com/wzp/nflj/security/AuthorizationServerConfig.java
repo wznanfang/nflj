@@ -47,22 +47,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         services.setClientDetailsService(clientDetailsService);
         services.setSupportRefreshToken(true);
         services.setTokenStore(tokenStore);
-        services.setAccessTokenValiditySeconds(60 * 60 * 24); // token过期时间
-        services.setRefreshTokenValiditySeconds(60 * 60 * 24 * 2); // 刷新token过期时间
+        services.setAccessTokenValiditySeconds(86400); // token过期时间
+        services.setRefreshTokenValiditySeconds(86400 * 30); // 刷新token过期时间
         return services;
     }
 
     /**
-     * 配置令牌端点的安全约束，也就是这个端点谁能访问，谁不能访问
-     * checkTokenAccess 是指一个 Token 校验的端点
+     * 配置令牌端点的安全约束
      *
      * @param security
      * @throws Exception
      */
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.checkTokenAccess("permitAll()")
-                .allowFormAuthenticationForClients();
+    public void configure(AuthorizationServerSecurityConfigurer security) {
+        security
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");
     }
 
     /**
@@ -75,7 +75,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient(CustomConfig.withClient)
-                .secret(new BCryptPasswordEncoder().encode(CustomConfig.secret))
+                .secret(CustomConfig.secret)
                 .resourceIds(CustomConfig.resourceId)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all");

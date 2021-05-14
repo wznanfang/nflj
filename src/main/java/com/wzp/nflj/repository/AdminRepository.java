@@ -17,8 +17,6 @@ public interface AdminRepository extends JpaRepository<Admin, Long>, QuerydslPre
 
     Admin findByUsername(String username);
 
-    Admin findByPhone(String phone);
-
     @Override
     @Cacheable(value = "admin")
     Optional<Admin> findById(Long id);

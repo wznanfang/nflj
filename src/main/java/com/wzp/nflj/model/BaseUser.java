@@ -53,9 +53,6 @@ public class BaseUser extends Model implements UserDetails {
     @ApiModelProperty(value = "注册IP")
     private String registerIp;
 
-    @JsonIgnore
-    private String salt;
-
     @Transient
     private Set<GrantedAuthority> authorities;
 

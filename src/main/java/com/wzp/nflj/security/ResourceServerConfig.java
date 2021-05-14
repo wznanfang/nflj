@@ -41,8 +41,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(new AuthExceptionEntryPoint()).and()// 解决匿名用户访问无权限资源时的异常
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/back/user/login", "/common/getTime", "/common/getCode").permitAll()
-                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**", "/webjars/**", "/mqtt.html").permitAll()
+                .antMatchers("/common/getTime", "/common/getCode",
+                        "/back/admin/login").permitAll()
                 .antMatchers("/", "/doc.html", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html**", "/webjars/**").permitAll()
                 .anyRequest().authenticated().and()
                 .httpBasic().and();

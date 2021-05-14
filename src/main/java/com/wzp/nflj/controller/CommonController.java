@@ -82,7 +82,7 @@ public class CommonController {
     @ApiOperation("退出登录,并清除redis中的token")
     @GetMapping("/loginOut")
     public Result loginOut(@RequestHeader Map<String, Object> headerMap) {
-        if (StringUtils.isEmpty(headerMap.get("access_token"))) {
+        if (ObjUtil.isEmpty(headerMap.get("access_token"))) {
             return Result.error(ResultCodeEnum.PARAM_ERROR);
         }
         consumerTokenServices.revokeToken(String.valueOf(headerMap.get("access_token")));

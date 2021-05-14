@@ -21,8 +21,8 @@ server:
 #自定义
 custom-config:
   resourceId: nflj
-  withClient: appWeb-nflj-manage
+  withClient: nflj-manage
   secret: nflj
-  originalPassword: nflj123456
+  originalPassword: 72d0f0fea337e605417044de8c749982
   publicNetWork: http://ip.chinaz.com
 
