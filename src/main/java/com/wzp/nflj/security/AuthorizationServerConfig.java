@@ -31,6 +31,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     ClientDetailsService clientDetailsService;
     @Resource
     AuthenticationManager authenticationManager;
+    @Resource
+    PasswordEncoder passwordEncoder;
 
 
     /**
@@ -72,7 +74,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient(CustomConfig.withClient)
-                .secret(new BCryptPasswordEncoder().encode(CustomConfig.secret))
+                .secret(passwordEncoder.encode(CustomConfig.secret))
                 .resourceIds(CustomConfig.resourceId)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all");
