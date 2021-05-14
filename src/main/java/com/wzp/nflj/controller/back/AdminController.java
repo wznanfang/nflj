@@ -1,6 +1,8 @@
 package com.wzp.nflj.controller.back;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.wzp.nflj.config.BaseConfig;
+import com.wzp.nflj.config.CustomConfig;
 import com.wzp.nflj.enums.ResultCodeEnum;
 import com.wzp.nflj.model.Admin;
 import com.wzp.nflj.model.Authority;
@@ -10,6 +12,7 @@ import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.IpUtil;
 import com.wzp.nflj.util.ObjUtil;
 import com.wzp.nflj.util.Result;
+import com.wzp.nflj.vo.AdminVO;
 import com.wzp.nflj.vo.LoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +36,7 @@ import java.util.Map;
  * @author wzp
  * @date 2021/5/14 10:25
  */
-@Api(tags = "管理员户管理")
+@Api(tags = "管理员用户管理")
 @Slf4j
 @RestController
 @RequestMapping("/back/admin")
@@ -50,7 +53,7 @@ public class AdminController extends BaseConfig {
     @ApiOperation("用户登录")
     @PostMapping("/login")
     public Result login(@RequestBody LoginVO loginVO) {
-        if (ObjUtil.isEmpty(loginVO.getUsername()) || StringUtils.isEmpty(loginVO.getPassword())) {
+        if (ObjUtil.isEmpty(loginVO.getUsername()) || ObjUtil.isEmpty(loginVO.getPassword())) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
         }
         Map<String, Object> map1 = new HashMap<>(2);
@@ -75,7 +78,7 @@ public class AdminController extends BaseConfig {
         List<Authority> list = findAuthority(admin);
         admin.setAuthorityList(list);
         //获取token
-        ResponseEntity<OAuth2AccessToken> responseEntity = getToken(username, password);
+        ResponseEntity<OAuth2AccessToken> responseEntity = getToken(username, admin.getPassword());
         if (responseEntity == null) {
             return Result.error(ResultCodeEnum.FORBIDDEN);
         }
@@ -92,4 +95,29 @@ public class AdminController extends BaseConfig {
         }
         return authorities;
     }
+
+
+    @ApiOperation("注册后台用户")
+    @PostMapping("/register")
+    @ApiOperationSupport(ignoreParameters = {"id", "roleIds", "enabled"})
+    public Result<Admin> register(@RequestBody AdminVO adminVO) {
+        if (ObjUtil.isEmpty(adminVO.getUsername())||ObjUtil.isEmpty(adminVO.getPhone())) {
+            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+        }
+        String username = adminVO.getUsername();
+        Admin admin = adminRepository.findByUsername(username);
+        if (admin != null) {
+            return Result.error(ResultCodeEnum.HAS_USER);
+        }
+        admin = new Admin();
+        admin.setUsername(username);
+        admin.setPhone(adminVO.getPhone());
+        admin.setPassword(new BCryptPasswordEncoder().encode(CustomConfig.originalPassword));
+        String ip = IpUtil.getRealIp(request);
+        admin.setRegisterIp(ip);
+        adminRepository.save(admin);
+        return Result.ok(admin);
+    }
+
+
 }

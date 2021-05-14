@@ -75,7 +75,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient(CustomConfig.withClient)
-                .secret(CustomConfig.secret)
+                .secret(new BCryptPasswordEncoder().encode(CustomConfig.secret))
                 .resourceIds(CustomConfig.resourceId)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all");
@@ -94,15 +94,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .tokenServices(tokenServices());
     }
 
-
-    /**
-     * 配置授权码的存储 即code
-     *
-     * @return
-     */
-    @Bean
-    AuthorizationCodeServices authorizationCodeServices() {
-        return new InMemoryAuthorizationCodeServices();
-    }
 
 }

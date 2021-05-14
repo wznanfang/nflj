@@ -43,7 +43,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/common/getTime", "/common/getCode",
                         "/back/admin/login").permitAll()
-                .antMatchers("/", "/doc.html", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html**", "/webjars/**").permitAll()
+                .antMatchers("/", "/doc.html", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui.html**", "/webjars/**").permitAll()
                 .anyRequest().authenticated().and()
                 .httpBasic().and();
     }

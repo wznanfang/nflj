@@ -64,14 +64,14 @@ public class BaseConfig {
      * @return
      */
     public ResponseEntity getToken(String username, String password) {
-        Map<String, String> map = new HashMap<>();
-        map.put("username", username);
-        map.put("password", password);
-        map.put("grant_type", "password");
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("grant_type", "password");
+        parameters.put("username", username);
+        parameters.put("password", password);
         ResponseEntity<OAuth2AccessToken> responseEntity = null;
+        Authentication authentication = new UsernamePasswordAuthenticationToken(CustomConfig.withClient, CustomConfig.secret, null);
         try {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(CustomConfig.withClient, CustomConfig.secret, null);
-            responseEntity = tokenEndpoint.postAccessToken(authentication, map);
+            responseEntity = tokenEndpoint.postAccessToken(authentication, parameters);
             log.info(String.valueOf(responseEntity.getBody()));
         } catch (Exception e) {
             log.error("授权失败");
