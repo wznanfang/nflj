@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,16 +13,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 用户访问配置
+ *
  * @Author: zp.wei
  * @DATE: 2020/8/28 16:57
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 开启方法级安全验证
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
+    }
 
     /**
      * springboot 官方加密
+     *
      * @return
      */
     @Bean
@@ -47,19 +54,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 通过数据库查找用户
+     *
      * @param auth
      * @throws Exception
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService());
-    }
-
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
     }
 
 }
