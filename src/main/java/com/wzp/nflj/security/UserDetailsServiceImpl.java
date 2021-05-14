@@ -2,10 +2,11 @@ package com.wzp.nflj.security;
 
 import com.wzp.nflj.model.BaseUser;
 import com.wzp.nflj.service.BaseUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import javax.annotation.Resource;
 
 /**
  * 验证用户
@@ -15,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
+    @Resource
     private BaseUserService baseUserServiceImpl;
 
     @Override

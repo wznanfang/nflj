@@ -21,14 +21,15 @@ import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: zp.wei
@@ -63,8 +64,8 @@ public class BaseConfig {
      * @param password
      * @return
      */
-    public ResponseEntity getToken(String username, String password) {
-        Map<String, String> parameters = new HashMap<>();
+    public ResponseEntity<OAuth2AccessToken> getToken(String username, String password) {
+        Map<String, String> parameters = new HashMap<>(3);
         parameters.put("grant_type", "password");
         parameters.put("username", username);
         parameters.put("password", password);

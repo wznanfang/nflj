@@ -11,8 +11,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -56,7 +54,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      * 配置令牌端点的安全约束
      *
      * @param security
-     * @throws Exception
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
@@ -85,7 +82,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      * 配置令牌的访问端点和令牌服务
      *
      * @param endpoints
-     * @throws Exception
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
