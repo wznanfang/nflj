@@ -22,6 +22,9 @@ public interface AdminRoleRepository extends JpaRepository<AdminRole, Long>, Que
     @Query("select a.role from AdminRole a  where a.admin=?1")
     List<Role> findRoleByAdmin(Admin admin);
 
+    @Query("select a.role from AdminRole a  where a.admin.id=?1")
+    List<Role> findRoleByAdminId(Long id);
+
     @Modifying
     void deleteAllByRole(Role role);
 
