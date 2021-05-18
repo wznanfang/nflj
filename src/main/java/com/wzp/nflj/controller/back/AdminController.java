@@ -81,7 +81,7 @@ public class AdminController extends BaseConfig {
         List<Authority> list = findAuthority(admin);
         admin.setAuthorityList(list);
         //获取token
-        ResponseEntity<OAuth2AccessToken> responseEntity = getToken("admin:" + username, admin.getPassword());
+        ResponseEntity<OAuth2AccessToken> responseEntity = getToken("admin:" + username, password);
         if (responseEntity == null) {
             return Result.error(ResultCodeEnum.FORBIDDEN);
         }
