@@ -119,11 +119,7 @@ public class BaseConfig {
      * @return
      */
     protected String getUsername() {
-        String username = getAuthentication().getUsername();
-        if (username.startsWith("admin:")) {
-            username = username.substring(6);
-        }
-        return username;
+        return getAuthentication().getUsername();
     }
 
 

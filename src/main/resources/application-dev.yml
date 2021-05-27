@@ -1,6 +1,6 @@
 spring:
   application:
-    name: wule-server
+    name: nflj-server
   jpa:
     database: mysql
     hibernate:
@@ -31,8 +31,6 @@ spring:
     #连接超时时间
     timeout: 3000
     password:
-  redis2:
-    database: 1 # Redis数据库索引（默认为0）
 
 knife4j:
   production: false
