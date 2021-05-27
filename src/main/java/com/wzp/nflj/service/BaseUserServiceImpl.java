@@ -1,11 +1,16 @@
 package com.wzp.nflj.service;
 
 
+import com.wzp.nflj.model.Authority;
 import com.wzp.nflj.model.BaseUser;
+import com.wzp.nflj.model.Role;
 import com.wzp.nflj.repository.AdminRepository;
 import com.wzp.nflj.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BaseUserServiceImpl implements BaseUserService {

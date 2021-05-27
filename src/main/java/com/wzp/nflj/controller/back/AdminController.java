@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,8 @@ public class AdminController extends BaseConfig {
     private AdminRoleRepository adminRoleRepository;
     @Resource
     private RoleAuthorityRepository roleAuthorityRepository;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
 
     @ApiOperation("用户登录")
@@ -66,7 +69,7 @@ public class AdminController extends BaseConfig {
         if (!admin.getEnabled()) {
             return Result.error(ResultCodeEnum.USER_NOT_ENABLE);
         }
-        boolean flag = new BCryptPasswordEncoder().matches(password, admin.getPassword());
+        boolean flag = passwordEncoder.matches(password, admin.getPassword());
         if (!flag) {
             return Result.error(ResultCodeEnum.ERROR_USERNAME_OR_PASSWORD);
         }
@@ -78,7 +81,7 @@ public class AdminController extends BaseConfig {
         List<Authority> list = findAuthority(admin);
         admin.setAuthorityList(list);
         //获取token
-        ResponseEntity<OAuth2AccessToken> responseEntity = getToken(username, admin.getPassword());
+        ResponseEntity<OAuth2AccessToken> responseEntity = getToken("admin:" + username, password);
         if (responseEntity == null) {
             return Result.error(ResultCodeEnum.FORBIDDEN);
         }
@@ -101,7 +104,7 @@ public class AdminController extends BaseConfig {
     @PostMapping("/register")
     @ApiOperationSupport(ignoreParameters = {"id", "roleIds", "enabled"})
     public Result<Admin> register(@RequestBody AdminVO adminVO) {
-        if (ObjUtil.isEmpty(adminVO.getUsername())||ObjUtil.isEmpty(adminVO.getPhone())) {
+        if (ObjUtil.isEmpty(adminVO.getUsername()) || ObjUtil.isEmpty(adminVO.getPhone())) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
         }
         String username = adminVO.getUsername();
