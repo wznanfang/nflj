@@ -19,7 +19,7 @@ public class EasyExcelReadUtil<T> extends AnalysisEventListener<T> {
     /**
      * 每隔3000条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
-    private static final int batchCount = 3000;
+    private static final int BATCH_COUNT = 3000;
 
     List<T> list = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class EasyExcelReadUtil<T> extends AnalysisEventListener<T> {
         log.info("解析到一条数据:{}", JSON.toJSONString(t));
         list.add(t);
         // 达到batchCount了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
-        if (list.size() >= batchCount) {
+        if (list.size() >= BATCH_COUNT) {
             saveData();
         }
     }

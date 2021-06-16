@@ -26,7 +26,7 @@ public class EasyExcelWriteUtil {
     private String excelSavePath = CustomConfig.excelSavePath;
 
     //默认每个sheet存储一百万的数据
-    private static final int defaultSheetNum = 1000000;
+    private static final int DEFAULT_SHEET_NUM = 1000000;
 
 
     /**
@@ -89,7 +89,7 @@ public class EasyExcelWriteUtil {
      */
     public ExcelWriter create(String excelName, Integer totalNum, Class clazz) {
         ExcelWriter excelWriter = EasyExcel.write(route(excelName), clazz.asSubclass(clazz)).build();
-        Integer sheetNumber = (totalNum % defaultSheetNum) > 0 ? (totalNum / defaultSheetNum) + 1 : (totalNum / defaultSheetNum);
+        Integer sheetNumber = (totalNum % DEFAULT_SHEET_NUM) > 0 ? (totalNum / DEFAULT_SHEET_NUM) + 1 : (totalNum / DEFAULT_SHEET_NUM);
         createSheets(sheetNumber);
         return excelWriter;
     }
@@ -114,7 +114,7 @@ public class EasyExcelWriteUtil {
      * @param resize      动态调整大小
      */
     public void write(ExcelWriter excelWriter, List list, int resize) {
-        int index = resize / (defaultSheetNum + 1);
+        int index = resize / (DEFAULT_SHEET_NUM + 1);
         excelWriter.write(list, sheets.get(index));
     }
 
