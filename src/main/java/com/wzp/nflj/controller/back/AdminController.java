@@ -1,5 +1,6 @@
 package com.wzp.nflj.controller.back;
 
+import com.alibaba.excel.EasyExcel;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.wzp.nflj.config.BaseConfig;
 import com.wzp.nflj.config.CustomConfig;
@@ -10,18 +11,22 @@ import com.wzp.nflj.model.Role;
 import com.wzp.nflj.repository.AdminRepository;
 import com.wzp.nflj.repository.AdminRoleRepository;
 import com.wzp.nflj.repository.RoleAuthorityRepository;
+import com.wzp.nflj.service.EasyExcelReadService;
 import com.wzp.nflj.service.EasyExcelWriteService;
 import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.IpUtil;
 import com.wzp.nflj.util.ObjUtil;
 import com.wzp.nflj.util.Result;
+import com.wzp.nflj.util.excel.EasyExcelReadListener;
 import com.wzp.nflj.util.excel.EasyExcelWriteUtil;
 import com.wzp.nflj.vo.AdminVO;
 import com.wzp.nflj.vo.LoginVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -144,6 +149,20 @@ public class AdminController extends BaseConfig {
         //如果这里有返回会导致 Cannot call sendError() after the response has been committed 错误
         // 原因在于response输出流已关闭，导致执行第二个输出时出现response被提交之后不能发送错误请求，故设置为 return null
         return null;
+    }
+
+
+    @ApiOperation("使用easyExcel导入到数据库")
+    @ApiImplicitParam(name = "filename", value = "文件名", dataType = "string", paramType = "query", example = "G:/oauth-server/excel/1608702092807.xlsx")
+    @GetMapping("/easyExcelImport")
+    public Result easyExcelImport() {
+        String filename = request.getParameter("filename");
+        // 这里 需要指定用哪个class去读，然后读取第一个sheet 文件流会自动关闭
+        //读取单个sheet
+//        EasyExcel.read(filename, User.class, new UserEasyExcelRead()).sheet().doRead();
+        //读取多个sheet
+        EasyExcel.read(filename, Admin.class, new EasyExcelReadListener(AdminRepository.class)).doReadAll();
+        return Result.ok(ResultCodeEnum.EXCEL_IMPORT_SUCCESS);
     }
 
 

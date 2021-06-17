@@ -23,7 +23,7 @@ public class EasyExcelWriteUtil {
     private List<WriteSheet> sheets;
 
     //excel存放的文件夹
-    private String excelSavePath = CustomConfig.excelSavePath;
+    private String EXCEL_SAVE_PATH = CustomConfig.excelSavePath;
 
     //默认每个sheet存储一百万的数据
     private static final int DEFAULT_SHEET_NUM = 1000000;
@@ -42,7 +42,7 @@ public class EasyExcelWriteUtil {
      * @param folderName
      */
     public EasyExcelWriteUtil(String folderName) {
-        excelSavePath = folderName;
+        EXCEL_SAVE_PATH = folderName;
     }
 
 
@@ -53,7 +53,7 @@ public class EasyExcelWriteUtil {
      * @return
      */
     private String route(String excelName) {
-        String excelPath = excelSavePath + excelName;
+        String excelPath = EXCEL_SAVE_PATH + excelName;
         File file = new File(excelPath);
         File file1 = new File(file.getParent());
         if (!file1.exists()) {
@@ -151,7 +151,7 @@ public class EasyExcelWriteUtil {
     public boolean downloadExcel(HttpServletResponse response, String filename) {
         try {
             //获取服务器文件
-            File file = new File(excelSavePath + filename);
+            File file = new File(EXCEL_SAVE_PATH + filename);
             InputStream ins = new FileInputStream(file);
             getResponse(response, file.getName());
             OutputStream os = response.getOutputStream();

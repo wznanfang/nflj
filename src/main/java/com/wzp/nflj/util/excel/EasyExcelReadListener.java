@@ -2,6 +2,9 @@ package com.wzp.nflj.util.excel;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,9 @@ import java.util.List;
  * @date 2021/6/16 11:57
  * 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
  */
+@Slf4j
+@Component
+@Scope("prototype")
 public class EasyExcelReadListener<T> extends AnalysisEventListener<T> {
 
 
@@ -20,7 +26,7 @@ public class EasyExcelReadListener<T> extends AnalysisEventListener<T> {
      */
     private static final int BATCH_COUNT = 3000;
 
-    List<T> list = new ArrayList<T>();
+    List<T> list = new ArrayList<>();
 
 
     /**
@@ -71,9 +77,7 @@ public class EasyExcelReadListener<T> extends AnalysisEventListener<T> {
      * 存储数据库 -----------待完善-----------------
      */
     private void saveData() {
-        //获取实体类的类名
-        T t = list.get(0);
-        //获取bean
+        log.info("共有{}条数据，开始存储数据库！", list.size());
         //存储数据库的逻辑
         // 存储完成清理 list
         list.clear();
