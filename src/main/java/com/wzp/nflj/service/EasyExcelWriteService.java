@@ -14,6 +14,6 @@ public interface EasyExcelWriteService {
      * @param fileName excel表名
      * @return 返回值 true false
      */
-    boolean excelExport(Long total, String fileName);
+    boolean adminExcelExport(Long total, String fileName);
 
 }

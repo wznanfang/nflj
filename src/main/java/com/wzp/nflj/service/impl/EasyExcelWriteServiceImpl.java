@@ -34,11 +34,6 @@ public class EasyExcelWriteServiceImpl implements EasyExcelWriteService {
      */
     private static final Integer EXCEL_ROWS = 10000;
 
-    /**
-     * 默认每个sheet存储一百万的数据
-     */
-    private static final int DEFAULT_SHEET_NUM = 1000000;
-
 
     /**
      * admin 用户数据导出到Excel
@@ -48,7 +43,7 @@ public class EasyExcelWriteServiceImpl implements EasyExcelWriteService {
      * @return
      */
     @Override
-    public boolean excelExport(Long totalNum, String fileName) {
+    public boolean adminExcelExport(Long totalNum, String fileName) {
         FileUtil.fileExist(EXCEL_SAVE_PATH);
         EasyExcelWriteUtil easyExcelUtil = new EasyExcelWriteUtil(EXCEL_SAVE_PATH);
         ExcelWriter excelWriter = null;

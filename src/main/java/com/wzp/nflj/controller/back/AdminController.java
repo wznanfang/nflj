@@ -137,10 +137,12 @@ public class AdminController extends BaseConfig {
         Long totalNum = adminRepository.findCount();
         if (totalNum > 0) {
             String fileName = "系统用户表" + DateUtil.sysTime() + ".xlsx";
-            boolean excelExport = easyExcelWriteService.excelExport(totalNum, fileName);
+            //保存到本地服务器
+            boolean excelExport = easyExcelWriteService.adminExcelExport(totalNum, fileName);
             if (!excelExport) {
                 return Result.error(ResultCodeEnum.EXCEL_EXPORT_FAIL);
             }
+            //通过浏览器下载
             boolean excelDownload = new EasyExcelWriteUtil().downloadExcel(response, fileName);
             if (!excelDownload) {
                 return Result.error(ResultCodeEnum.EXCEL_DOWNLAND_FAIL);
