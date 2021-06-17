@@ -87,9 +87,9 @@ public class EasyExcelWriteUtil {
      * @return
      * @throws Exception
      */
-    public ExcelWriter create(String excelName, Integer totalNum, Class clazz) {
+    public ExcelWriter create(String excelName, Long totalNum, Class clazz) {
         ExcelWriter excelWriter = EasyExcel.write(route(excelName), clazz.asSubclass(clazz)).build();
-        Integer sheetNumber = (totalNum % DEFAULT_SHEET_NUM) > 0 ? (totalNum / DEFAULT_SHEET_NUM) + 1 : (totalNum / DEFAULT_SHEET_NUM);
+        Long sheetNumber = (totalNum % DEFAULT_SHEET_NUM) > 0 ? (totalNum / DEFAULT_SHEET_NUM) + 1 : (totalNum / DEFAULT_SHEET_NUM);
         createSheets(sheetNumber);
         return excelWriter;
     }

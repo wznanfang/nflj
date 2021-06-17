@@ -1,9 +1,10 @@
-package com.wzp.nflj.service;
+package com.wzp.nflj.service.impl;
 
 
 import com.wzp.nflj.model.BaseUser;
 import com.wzp.nflj.repository.AdminRepository;
 import com.wzp.nflj.repository.UserRepository;
+import com.wzp.nflj.service.BaseUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

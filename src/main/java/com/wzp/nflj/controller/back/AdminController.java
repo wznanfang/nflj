@@ -7,11 +7,15 @@ import com.wzp.nflj.enums.ResultCodeEnum;
 import com.wzp.nflj.model.Admin;
 import com.wzp.nflj.model.Authority;
 import com.wzp.nflj.model.Role;
-import com.wzp.nflj.repository.*;
+import com.wzp.nflj.repository.AdminRepository;
+import com.wzp.nflj.repository.AdminRoleRepository;
+import com.wzp.nflj.repository.RoleAuthorityRepository;
+import com.wzp.nflj.service.EasyExcelWriteService;
 import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.IpUtil;
 import com.wzp.nflj.util.ObjUtil;
 import com.wzp.nflj.util.Result;
+import com.wzp.nflj.util.excel.EasyExcelWriteUtil;
 import com.wzp.nflj.vo.AdminVO;
 import com.wzp.nflj.vo.LoginVO;
 import io.swagger.annotations.Api;
@@ -21,11 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -51,6 +51,8 @@ public class AdminController extends BaseConfig {
     private RoleAuthorityRepository roleAuthorityRepository;
     @Resource
     private PasswordEncoder passwordEncoder;
+    @Resource
+    private EasyExcelWriteService easyExcelWriteService;
 
 
     @ApiOperation("用户登录")
@@ -120,6 +122,28 @@ public class AdminController extends BaseConfig {
         admin.setRegisterIp(ip);
         adminRepository.save(admin);
         return Result.ok(admin);
+    }
+
+
+    @ApiOperation("使用easyExcel导出到excel")
+    @GetMapping("easyExcelDownload")
+    public Result easyExcelDownload() {
+        //获取总数据量
+        Long totalNum = adminRepository.findCount();
+        if (totalNum > 0) {
+            String fileName = "系统用户表" + DateUtil.sysTime() + ".xlsx";
+            boolean excelExport = easyExcelWriteService.excelExport(totalNum, fileName);
+            if (!excelExport) {
+                return Result.error(ResultCodeEnum.EXCEL_EXPORT_FAIL);
+            }
+            boolean excelDownload = new EasyExcelWriteUtil().downloadExcel(response, fileName);
+            if (!excelDownload) {
+                return Result.error(ResultCodeEnum.EXCEL_DOWNLAND_FAIL);
+            }
+        }
+        //如果这里有返回会导致 Cannot call sendError() after the response has been committed 错误
+        // 原因在于response输出流已关闭，导致执行第二个输出时出现response被提交之后不能发送错误请求，故设置为 return null
+        return null;
     }
 
 

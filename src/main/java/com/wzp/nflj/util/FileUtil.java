@@ -41,7 +41,7 @@ public class FileUtil {
      *
      * @param filePath 文件路径
      */
-    private static void fileExist(String filePath) {
+    public static void fileExist(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
             file.mkdirs();
@@ -55,7 +55,7 @@ public class FileUtil {
      * @param url 文件路径 G:/oauth-server/excel/1608883380852.xlsx
      * @return 1608883380852.xlsx
      */
-    private static String getFileName(String url) {
+    public static String getFileName(String url) {
         if (ObjUtil.isEmpty(url) || !url.contains("/")) {
             log.error("请检查传递参数是否正确");
             return "";

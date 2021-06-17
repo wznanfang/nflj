@@ -41,8 +41,8 @@ custom-config:
   dbName: nflj
   dbUsername: root
   dbPassword: 123456
-  ipData: E:\ipData\ip2region.db
-  fileSave: E:\nflj\
-  excelSavePath: E:\nflj\excel\
+  ipData: F:\ipData\ip2region.db
+  fileSave: F:\nflj\
+  excelSavePath: F:\nflj\excel\
 
 

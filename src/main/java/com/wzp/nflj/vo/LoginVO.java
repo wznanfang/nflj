@@ -16,10 +16,10 @@ public class LoginVO implements Serializable {
 
     private static final long serialVersionUID = 10300087461480759L;
 
-    @ApiModelProperty(value = "用户名", example = "admin", required = true)
+    @ApiModelProperty(value = "用户名", example = "superAdmin", required = true)
     private String username;
 
-    @ApiModelProperty(value = "密码", example = "e10adc3949ba59abbe56e057f20f883e", required = true)
+    @ApiModelProperty(value = "密码", example = "72d0f0fea337e605417044de8c749982", required = true)
     private String password;
 
 }
