@@ -19,7 +19,7 @@ import java.util.*;
  * @DATE: 2020/12/7 11:43
  */
 @Configuration
-public class Knife4jConfiguration {
+public class Knife4jConfig {
 
 
     @Bean
