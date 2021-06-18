@@ -2,11 +2,14 @@ package com.wzp.nflj.controller.back;
 
 import com.alibaba.excel.EasyExcel;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import com.wzp.nflj.config.BaseConfig;
 import com.wzp.nflj.config.CustomConfig;
 import com.wzp.nflj.enums.ResultCodeEnum;
 import com.wzp.nflj.model.Admin;
 import com.wzp.nflj.model.Authority;
+import com.wzp.nflj.model.QAdmin;
 import com.wzp.nflj.model.Role;
 import com.wzp.nflj.repository.AdminRepository;
 import com.wzp.nflj.repository.AdminRoleRepository;
@@ -19,11 +22,16 @@ import com.wzp.nflj.util.Result;
 import com.wzp.nflj.util.excel.EasyExcelReadListener;
 import com.wzp.nflj.util.excel.EasyExcelWriteUtil;
 import com.wzp.nflj.vo.AdminVO;
+import com.wzp.nflj.vo.IdVO;
 import com.wzp.nflj.vo.LoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,10 +39,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author wzp
@@ -125,6 +130,61 @@ public class AdminController extends BaseConfig {
         admin.setRegisterIp(ip);
         adminRepository.save(admin);
         return Result.ok(admin);
+    }
+
+
+    @ApiOperation("删除")
+    @PostMapping("delete")
+    public Result delete(@RequestBody IdVO idVO) {
+        if (ObjUtil.isEmpty(idVO.getId())) {
+            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+        }
+        Optional<Admin> optional = adminRepository.findById(idVO.getId());
+        Admin admin = optional.orElse(null);
+        if (admin == null) {
+            return Result.error(ResultCodeEnum.PARAM_ERROR);
+        }
+        admin.setEnabled(false);
+        adminRepository.save(admin);
+        return Result.ok();
+    }
+
+
+    @ApiOperation("根据ID查询")
+    @PostMapping("getOne")
+    public Result getOne(@RequestBody IdVO idVO) {
+        if (ObjUtil.isEmpty(idVO.getId())) {
+            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+        }
+        Optional<Admin> optional = adminRepository.findById(idVO.getId());
+        Admin admin = optional.orElse(null);
+        if (admin == null) {
+            return Result.error(ResultCodeEnum.PARAM_ERROR);
+        }
+        return Result.ok(admin);
+    }
+
+
+    @ApiOperation("根据条件查询")
+    @GetMapping("findAll")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query", example = "张三"),
+            @ApiImplicitParam(name = "phone", value = "电话", dataType = "String", paramType = "query", example = "1456785456"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", dataType = "int", paramType = "query", example = "20"),
+            @ApiImplicitParam(name = "page", value = "页数，从0开始", dataType = "int", paramType = "query", example = "0"),
+            @ApiImplicitParam(name = "sort", value = "排序规则，可传入多个sort参数", dataType = "string", paramType = "query", example = "createdAt desc")
+    })
+    public Result findAll(@PageableDefault Pageable pageable) {
+        QAdmin qAdmin = QAdmin.admin;
+        Predicate predicate = new BooleanBuilder();
+        if (!ObjUtil.isEmpty(request.getParameter("username"))) {
+            predicate = qAdmin.username.like("%" + request.getParameter("username") + "%").and(predicate);
+        }
+        if (!ObjUtil.isEmpty(request.getParameter("phone"))) {
+            predicate = qAdmin.phone.like("%" + request.getParameter("phone") + "%").and(predicate);
+        }
+        Page<Admin> page = adminRepository.findAll(predicate, pageable);
+        return Result.ok(page);
     }
 
 
