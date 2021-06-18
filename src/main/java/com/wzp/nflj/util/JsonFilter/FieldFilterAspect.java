@@ -61,8 +61,8 @@ public class FieldFilterAspect {
 
 
     private SerializeFilter getSerializeFilter(JsonFilter jsonFilter) {
-        if (jsonFilter.includes() == null || jsonFilter.includes().length == 0) {
-            if (jsonFilter.excludes() == null || jsonFilter.excludes().length == 0) {
+        if (jsonFilter.includes().length == 0) {
+            if (jsonFilter.excludes().length == 0) {
                 return null;
             } else {
                 PropertyFilter propertyFilter = new PropertyFilter() {
