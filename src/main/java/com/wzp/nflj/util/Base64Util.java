@@ -5,7 +5,7 @@ import org.apache.commons.codec.binary.Base64;
 /**
  * Base64工具类
  *
- * @author ruoyi
+ * @author zp.wei
  */
 public class Base64Util {
 
