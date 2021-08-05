@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
+ * 字典码排序
+ *
  * @author zp.wei
  * @date 2021/6/28 12:08
  */

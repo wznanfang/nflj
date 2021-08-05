@@ -4,6 +4,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+/**
+ * 验证码工具类
+ *
+ * @author zp.wei
+ * @date 2021/6/28 12:08
+ */
 public class CodeUtil {
     // 验证码字符集
     private static final char[] chars = {
