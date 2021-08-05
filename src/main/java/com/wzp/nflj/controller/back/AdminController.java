@@ -172,7 +172,7 @@ public class AdminController extends BaseConfig {
             @ApiImplicitParam(name = "phone", value = "电话", dataType = "String", paramType = "query", example = "1456785456"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", dataType = "int", paramType = "query", example = "20"),
             @ApiImplicitParam(name = "page", value = "页数，从0开始", dataType = "int", paramType = "query", example = "0"),
-            @ApiImplicitParam(name = "sort", value = "排序规则，可传入多个sort参数", dataType = "string", paramType = "query", example = "createdAt desc")
+            @ApiImplicitParam(name = "sort", value = "排序规则，可传入多个sort参数", dataType = "string", paramType = "query", example = "createdAt")
     })
     public Result findAll(@PageableDefault Pageable pageable) {
         QAdmin qAdmin = QAdmin.admin;
