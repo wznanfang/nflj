@@ -15,22 +15,22 @@ public class ObjUtil {
     /**
      * 检查参数是否为空
      *
-     * @param str 待检查参数
+     * @param obj 待检查参数
      * @return
      */
-    public static boolean isEmpty(@Nullable Object str) {
-        return (str == null || "".equals(str));
+    public static boolean isEmpty(@Nullable Object obj) {
+        return (obj == null || "".equals(obj));
     }
 
 
     /**
      * 检查参数是否为空 排除== "" 的验证
      *
-     * @param str 待检查参数
+     * @param obj 待检查参数
      * @return
      */
-    public static boolean isNull(@Nullable Object str) {
-        return (str == null);
+    public static boolean isNull(@Nullable Object obj) {
+        return (obj == null);
     }
 
 

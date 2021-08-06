@@ -24,6 +24,7 @@ public enum ResultCodeEnum {
     OLD_PASSWORD_ERROR(false, 10007, "旧密码错误，请重新输入"),
     NEW_PASSWORD_HAS_SAME(false, 10008, "新旧密码相同，请重新输入新密码"),
     AUTHORITY_HAS_USE(false, 10009, "该权限有角色在使用，不能删除"),
+    ID_CODE_EXISTENT(false, 10010, "权限码已存在"),
 
     EXCEL_DOWNLAND_FAIL(false, 20001, "excel下载失败，请重新下载"),
     EXCEL_IMPORT_SUCCESS(true, 20002, "excel导入成功"),
