@@ -151,12 +151,13 @@ public class AdminController extends BaseConfig {
 
 
     @ApiOperation("根据ID查询")
+    @ApiImplicitParam(name = "id", value = "id", dataType = "Long", paramType = "query", example = "1")
     @PostMapping("getOne")
-    public Result getOne(@RequestBody IdVO idVO) {
-        if (ObjUtil.isEmpty(idVO.getId())) {
+    public Result getOne(@RequestParam Long id) {
+        if (ObjUtil.isEmpty(id)) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
         }
-        Optional<Admin> optional = adminRepository.findById(idVO.getId());
+        Optional<Admin> optional = adminRepository.findById(id);
         Admin admin = optional.orElse(null);
         if (admin == null) {
             return Result.error(ResultCodeEnum.PARAM_ERROR);
@@ -213,7 +214,8 @@ public class AdminController extends BaseConfig {
 
 
     @ApiOperation("使用easyExcel导入到数据库")
-    @ApiImplicitParam(name = "filename", value = "文件名", dataType = "string", paramType = "query", example = "G:/oauth-server/excel/1608702092807.xlsx")
+    @ApiImplicitParam(name = "filename", value = "文件名", dataType = "string", paramType = "query", example = "G:/oauth-server/excel/1608702092807" +
+            ".xlsx")
     @GetMapping("/easyExcelImport")
     public Result easyExcelImport() {
         String filename = request.getParameter("filename");
