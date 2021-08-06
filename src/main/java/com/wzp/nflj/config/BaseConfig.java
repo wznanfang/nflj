@@ -165,13 +165,13 @@ public class BaseConfig {
         Sort.Direction direction = Sort.Direction.ASC;
         String properties = "id";
         Sort sort = null;
-        if (!ObjUtil.isEmpty(size)) {
-            size = Integer.valueOf(String.valueOf(parameters.get("size")));
+        if (!ObjUtil.isEmpty(parameters.get("size"))) {
+            size = Integer.parseInt(String.valueOf(parameters.get("size")));
         }
-        if (!ObjUtil.isEmpty(page)) {
-            page = Integer.valueOf(String.valueOf(parameters.get("page")));
+        if (!ObjUtil.isEmpty(parameters.get("page"))) {
+            page = Integer.parseInt(String.valueOf(parameters.get("page")));
         }
-        if (!ObjUtil.isEmpty(sort)) {
+        if (!ObjUtil.isEmpty(parameters.get("sort"))) {
             if (parameters.get("sort") instanceof List) {
                 List<String> list = (List<String>) parameters.get("sort");
                 if (list != null && !list.isEmpty()) {
