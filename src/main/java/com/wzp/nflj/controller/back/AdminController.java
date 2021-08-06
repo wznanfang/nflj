@@ -152,7 +152,7 @@ public class AdminController extends BaseConfig {
 
     @ApiOperation("根据ID查询")
     @ApiImplicitParam(name = "id", value = "id", dataType = "Long", paramType = "query", example = "1")
-    @PostMapping("getOne")
+    @GetMapping("getOne")
     public Result getOne(@RequestParam Long id) {
         if (ObjUtil.isEmpty(id)) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
