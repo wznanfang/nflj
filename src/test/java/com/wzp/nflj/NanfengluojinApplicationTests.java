@@ -28,9 +28,9 @@ class NanfengluojinApplicationTests {
             String mapValue = entry.getValue();
             System.out.println(mapKey + "：" + mapValue);
         }
-        Map<String, String>map = new HashMap<>();
-        map.put("username","admin");
-        map.put("username1","admin1");
+        Map<String, String> map = new HashMap<>();
+        map.put("username", "admin");
+        map.put("username1", "admin1");
 
         //获取@Id注解的主键id
         Field idField = ReflectUtils.getIdField(Admin.class);
@@ -41,11 +41,11 @@ class NanfengluojinApplicationTests {
         for (Map.Entry<String, String> entry : columnName.entrySet()) {
             String mapKey = entry.getKey();
             String mapValue = entry.getValue();
-            System.out.println(mapKey+":"+mapValue);
-            for(Map.Entry<String, String> entry1 : map.entrySet()){
-                if(mapKey.equals(entry1.getKey())){
+            System.out.println(mapKey + ":" + mapValue);
+            for (Map.Entry<String, String> entry1 : map.entrySet()) {
+                if (mapKey.equals(entry1.getKey())) {
                     String mapValue1 = entry1.getValue();
-                    System.out.println(mapKey + "变更为：" + mapValue1);
+                    System.out.println(mapValue + "变更为：" + mapValue1);
                 }
             }
         }
