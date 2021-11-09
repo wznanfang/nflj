@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2021/11/9 9:48
  */
 
-public class ReflectUtils {
+public class ReflectUtil {
 
     /**
      * 获取实体类主键
