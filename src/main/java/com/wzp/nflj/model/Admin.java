@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @Author wzp
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 @Setter
 @Getter
 @Entity
+@Table(name = "admin")
 public class Admin extends BaseUser {
     private static final long serialVersionUID = 8255398851069228829L;
 

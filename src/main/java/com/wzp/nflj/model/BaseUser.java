@@ -1,6 +1,7 @@
 package com.wzp.nflj.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wzp.nflj.util.Reflection.Reflection;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class BaseUser extends Model implements UserDetails {
 
     @ApiModelProperty(value = "用户名")
     @Column(unique = true)
+    @Reflection(name = "用户名")
     private String username;
 
     @ApiModelProperty(value = "密码")
