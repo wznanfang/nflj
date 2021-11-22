@@ -6,9 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -56,9 +53,8 @@ public class ReflectUtil {
         try {
             String firstLetter = pkName.substring(0, 1).toUpperCase();
             String getter = "get" + firstLetter + pkName.substring(1);
-            Method method = clazz.getClass().getMethod(getter, new Class[]{});
-            Object value = method.invoke(clazz, new Object[]{});
-            return value;
+            Method method = clazz.getClass().getMethod(getter);
+            return method.invoke(clazz);
         } catch (Exception e) {
             return null;
         }
@@ -98,6 +94,17 @@ public class ReflectUtil {
     public static Map<String, String> getColumnName(Class<?> clazz) {
         Map<String, String> map = new ConcurrentHashMap<>();
         Field[] fields = clazz.getDeclaredFields();
+        getField(map, fields);
+        //如果map为空，则查该类的父级
+        if (ObjUtil.isEmptyMap(map)) {
+            Class<?> superclass = clazz.getSuperclass();
+            fields = superclass.getDeclaredFields();
+            getField(map, fields);
+        }
+        return map;
+    }
+
+    private static void getField(Map<String, String> map, Field[] fields) {
         for (Field field : fields) {
             if (field.isAnnotationPresent(Reflection.class)) {
                 //获取字段名
@@ -106,20 +113,6 @@ public class ReflectUtil {
                 map.put(field.getName(), column);
             }
         }
-        //如果map为空，则查该类的父级
-        if (ObjUtil.isEmptyMap(map)) {
-            Class<?> superclass = clazz.getSuperclass();
-            fields = superclass.getDeclaredFields();
-            for (Field field : fields) {
-                if (field.isAnnotationPresent(Reflection.class)) {
-                    //获取字段名
-                    Reflection declaredAnnotation = field.getDeclaredAnnotation(Reflection.class);
-                    String column = declaredAnnotation.name();
-                    map.put(field.getName(), column);
-                }
-            }
-        }
-        return map;
     }
 
     /**
@@ -129,7 +122,7 @@ public class ReflectUtil {
      * @return
      */
     public static Map<String, String> getTableName(Class<?> clazz) {
-        Map<String, String> map = new ConcurrentHashMap<>();
+        Map<String, String> map = new ConcurrentHashMap<>(2);
         Table annotation = clazz.getAnnotation(Table.class);
         String name = annotation.name();
         String className = clazz.getSimpleName();
