@@ -3,7 +3,7 @@ package com.wzp.nflj.controller;
 import com.wzp.nflj.config.CustomConfig;
 import com.wzp.nflj.enums.ResultCodeEnum;
 import com.wzp.nflj.util.*;
-import com.wzp.nflj.util.fileUpload.util.ChunkUploadUtil;
+import com.wzp.nflj.util.fileUpload.util.FileUploadUtil;
 import com.wzp.nflj.util.fileUpload.vo.CheckMd5FileVO;
 import com.wzp.nflj.util.fileUpload.vo.UploadVO;
 import io.swagger.annotations.Api;
@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -169,7 +168,7 @@ public class CommonController {
     @PostMapping("/check")
     @ApiOperation("文件上传检查")
     public Result check(@RequestBody CheckMd5FileVO md5FileVO) {
-        return ChunkUploadUtil.check(md5FileVO);
+        return FileUploadUtil.check(md5FileVO);
     }
 
 
@@ -183,7 +182,7 @@ public class CommonController {
     @PostMapping("/fileUpload")
     @ApiOperation("文件上传")
     public Result fileUpload(@RequestParam("file") MultipartFile file, UploadVO uploadVO) {
-        return ChunkUploadUtil.upload(file, uploadVO);
+        return FileUploadUtil.upload(file, uploadVO);
     }
 
 

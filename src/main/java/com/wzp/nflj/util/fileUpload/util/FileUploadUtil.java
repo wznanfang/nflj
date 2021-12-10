@@ -9,14 +9,13 @@ import com.wzp.nflj.util.fileUpload.vo.FileVO;
 import com.wzp.nflj.util.fileUpload.vo.UploadVO;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @Author: zp.wei
  * @DATE: 2020/8/7 10:16
  */
-public class ChunkUploadUtil {
+public class FileUploadUtil {
 
     private static final String DELIMITER = "-";
 
@@ -153,7 +152,7 @@ public class ChunkUploadUtil {
         File destFile = new File(destFilePath);
         if (chunkFile.length() > 0) {
             try {
-                ChunkFileUtil.randomAccessFile(chunkFile, destFile, seek);
+                randomAccessFile(chunkFile, destFile, seek);
             } catch (IOException e) {
                 return Result.error(ResultCodeEnum.CHUNK_MERGE_FAIL);
             }
@@ -164,6 +163,33 @@ public class ChunkUploadUtil {
             return Result.ok(new FileVO(fileName));
         } else {
             return Result.error(ResultCodeEnum.UPLOADING);
+        }
+    }
+
+    public static void randomAccessFile(File in, File out, Long seek) throws IOException {
+        RandomAccessFile raFile = null;
+        BufferedInputStream inputStream = null;
+        try {
+            // 以读写的方式打开目标文件
+            raFile = new RandomAccessFile(out, "rw");
+            raFile.seek(seek);
+            inputStream = new BufferedInputStream(new FileInputStream(in));
+            byte[] buf = new byte[1024];
+            int length = 0;
+            while ((length = inputStream.read(buf)) != -1) {
+                raFile.write(buf, 0, length);
+            }
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (raFile != null) {
+                    raFile.close();
+                }
+            } catch (Exception e) {
+                throw new IOException(e.getMessage());
+            }
         }
     }
 
