@@ -16,12 +16,22 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
+    /**
+     * 实现ApplicationContextAware接口的回调方法，设置上下文环境
+     *
+     * @param applicationContext
+     * @throws BeansException
+     */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         SpringContextUtil.applicationContext = applicationContext;
     }
 
-    //获取applicationContext
+    /**
+     * 获得spring上下文
+     *
+     * @return
+     */
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }

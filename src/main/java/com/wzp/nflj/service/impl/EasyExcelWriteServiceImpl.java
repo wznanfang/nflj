@@ -51,7 +51,7 @@ public class EasyExcelWriteServiceImpl implements EasyExcelWriteService {
             excelWriter = easyExcelUtil.create(fileName, totalNum, AdminExcelVO.class);
             List<AdminExcelVO> list = new ArrayList<>();
             //根据数据总数据量和每次拿的数据量计算出需要拿几次数据
-            Long number = (totalNum % EXCEL_ROWS) > 0 ? (totalNum / EXCEL_ROWS) + 1 : (totalNum / EXCEL_ROWS);
+            long number = (totalNum % EXCEL_ROWS) > 0 ? (totalNum / EXCEL_ROWS) + 1 : (totalNum / EXCEL_ROWS);
             int count = 0;
             for (int i = 0; i <= number-1; i++) {
                 Page<Admin> page = adminRepository.findAll(PageRequest.of(i, EXCEL_ROWS));
