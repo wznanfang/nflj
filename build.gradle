@@ -40,6 +40,7 @@ dependencies {
     implementation "com.google.zxing:core:3.4.1"
     implementation "com.google.zxing:javase:3.4.1"
     implementation "com.alibaba:easyexcel:2.2.9"
+    implementation "org.springframework.boot:spring-boot-starter-aop:2.6.3"
 
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
