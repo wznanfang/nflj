@@ -64,14 +64,18 @@ public class SysLogAspect {
             sysLog.setDescription(apiOperation.value());
         }
         long endTime = System.currentTimeMillis();
-        sysLog.setUsername(new BaseConfig().getUsername());
+        String urlStr = request.getRequestURL().toString();
         sysLog.setIp(IpUtil.getRealIp(request));
         sysLog.setMethod(request.getMethod());
         sysLog.setParameter(String.valueOf(JSONObject.toJSON(joinPoint.getArgs())));
-        sysLog.setResult(String.valueOf(result));
+        sysLog.setResult(String.valueOf(JSONObject.toJSON(result)));
         sysLog.setSpendTime(endTime - startTime);
         sysLog.setStartTime(startTime);
-        sysLog.setUrl(request.getRequestURL().toString());
+        sysLog.setUrl(urlStr);
+        String urlPath = request.getServletPath();
+        if (!urlPath.contains("login")) {
+            sysLog.setUsername(new BaseConfig().getUsername());
+        }
         sysLogRepository.save(sysLog);
         return result;
     }
