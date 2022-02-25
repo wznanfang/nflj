@@ -2,7 +2,6 @@ package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
 import com.wzp.nflj.util.Reflection.ReflectUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,9 +9,7 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -59,7 +56,7 @@ class NanfengluojinApplicationTests {
      * BigDecimal 保留两位小数
      */
     @Test
-    void test1(){
+    void test1() {
         BigDecimal bigDecimal = new BigDecimal(999.998);
         BigDecimal bigDecimal1 = new BigDecimal(999.991);
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
@@ -91,8 +88,8 @@ class NanfengluojinApplicationTests {
      * 获取随机数
      */
     @Test
-    void test2(){
-        int aa = (int) ((Math.random()*9+1)*10000);
+    void test2() {
+        int aa = (int) ((Math.random() * 9 + 1) * 10000);
         System.out.println(aa);
     }
 
