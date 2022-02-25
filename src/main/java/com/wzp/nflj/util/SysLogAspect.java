@@ -1,34 +1,23 @@
 package com.wzp.nflj.util;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wzp.nflj.config.BaseConfig;
 import com.wzp.nflj.model.SysLog;
 import com.wzp.nflj.repository.SysLogRepository;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -46,7 +35,7 @@ public class SysLogAspect {
     private SysLogRepository sysLogRepository;
 
 
-    @Pointcut("execution(public * com.wzp.nflj.controller.back.*.*(..))")
+    @Pointcut("execution(public * com.wzp.nflj.controller.*.*.*(..))")
     public void sysLog() {
     }
 
