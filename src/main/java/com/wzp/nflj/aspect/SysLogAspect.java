@@ -1,9 +1,10 @@
-package com.wzp.nflj.util;
+package com.wzp.nflj.aspect;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wzp.nflj.config.BaseConfig;
 import com.wzp.nflj.model.SysLog;
 import com.wzp.nflj.repository.SysLogRepository;
+import com.wzp.nflj.util.IpUtil;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
