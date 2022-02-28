@@ -1,5 +1,6 @@
 package com.wzp.nflj.controller.back;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.wzp.nflj.config.BaseConfig;
 import com.wzp.nflj.enums.ResultCodeEnum;
 import com.wzp.nflj.model.Authority;
@@ -38,6 +39,7 @@ public class AuthorityController extends BaseConfig {
 
 
     @ApiOperation("权限新增")
+    @ApiOperationSupport(ignoreParameters = {"id", "createdAt", "updatedAt"})
     @PostMapping("save")
     public Result<Authority> save(@RequestBody Authority authority) {
         if (ObjUtil.isEmpty(authority.getIdCode())) {

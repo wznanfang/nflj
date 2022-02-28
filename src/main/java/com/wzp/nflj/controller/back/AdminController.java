@@ -26,7 +26,6 @@ import com.wzp.nflj.vo.IdVO;
 import com.wzp.nflj.vo.LoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -166,22 +165,16 @@ public class AdminController extends BaseConfig {
 
 
     @ApiOperation("根据条件查询")
+    @ApiOperationSupport(ignoreParameters = {"id", "roleIds", "enabled"})
     @GetMapping("findAll")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query", example = "张三"),
-            @ApiImplicitParam(name = "phone", value = "电话", dataType = "String", paramType = "query", example = "1456785456"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", dataType = "int", paramType = "query", example = "20"),
-            @ApiImplicitParam(name = "page", value = "页数，从0开始", dataType = "int", paramType = "query", example = "0"),
-            @ApiImplicitParam(name = "sort", value = "排序规则，可传入多个sort参数", dataType = "string", paramType = "query", example = "createdAt")
-    })
     public Result findAll(@PageableDefault Pageable pageable, AdminVO adminVO) {
         QAdmin qAdmin = QAdmin.admin;
         Predicate predicate = new BooleanBuilder();
-        if (!ObjUtil.isEmpty(request.getParameter("username"))) {
-            predicate = qAdmin.username.like("%" + request.getParameter("username") + "%").and(predicate);
+        if (!ObjUtil.isEmpty(adminVO.getUsername())) {
+            predicate = qAdmin.username.like("%" + adminVO.getUsername() + "%").and(predicate);
         }
-        if (!ObjUtil.isEmpty(request.getParameter("phone"))) {
-            predicate = qAdmin.phone.like("%" + request.getParameter("phone") + "%").and(predicate);
+        if (!ObjUtil.isEmpty(adminVO.getPhone())) {
+            predicate = qAdmin.phone.like("%" + adminVO.getPhone() + "%").and(predicate);
         }
         Page<Admin> page = adminRepository.findAll(predicate, pageable);
         return Result.ok(page);
