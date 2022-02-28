@@ -33,7 +33,8 @@ spring:
     password:
 
 knife4j:
-  production: false
+  enable: true #开启knife4j加强
+  production: false #是否屏蔽资源接口
 
 #自定义
 custom-config:

@@ -56,6 +56,7 @@ public class SysLogAspect {
         HttpServletRequest request = attributes.getRequest();
         //记录请求信息
         SysLog sysLog = new SysLog();
+        //请求返回
         Object result = joinPoint.proceed();
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
@@ -64,14 +65,11 @@ public class SysLogAspect {
             ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
             sysLog.setDescription(apiOperation.value());
         }
-        long endTime = System.currentTimeMillis();
         String urlStr = request.getRequestURL().toString();
         sysLog.setIp(IpUtil.getRealIp(request));
         sysLog.setMethod(request.getMethod());
         sysLog.setParameter(String.valueOf(JSONObject.toJSON(joinPoint.getArgs())));
-        sysLog.setResult(String.valueOf(JSONObject.toJSON(result)));
-        sysLog.setSpendTime(endTime - startTime);
-        sysLog.setStartTime(startTime);
+        sysLog.setSpendTime(System.currentTimeMillis() - startTime);
         sysLog.setUrl(urlStr);
         String urlPath = request.getServletPath();
         if (!urlPath.contains("login")) {

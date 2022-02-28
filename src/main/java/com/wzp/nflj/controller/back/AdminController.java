@@ -14,7 +14,6 @@ import com.wzp.nflj.model.Role;
 import com.wzp.nflj.repository.AdminRepository;
 import com.wzp.nflj.repository.AdminRoleRepository;
 import com.wzp.nflj.repository.RoleAuthorityRepository;
-import com.wzp.nflj.service.EasyExcelReadService;
 import com.wzp.nflj.service.EasyExcelWriteService;
 import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.IpUtil;
@@ -111,9 +110,9 @@ public class AdminController extends BaseConfig {
     }
 
 
-    @ApiOperation("注册后台用户")
+    @ApiOperation("注册")
     @PostMapping("/register")
-    @ApiOperationSupport(ignoreParameters = {"id", "roleIds", "enabled"})
+    @ApiOperationSupport(ignoreParameters = {"id", "roleIds", "enabled", "size", "page", "sort"})
     public Result<Admin> register(@RequestBody AdminVO adminVO) {
         if (ObjUtil.isEmpty(adminVO.getUsername()) || ObjUtil.isEmpty(adminVO.getPhone())) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
@@ -152,13 +151,12 @@ public class AdminController extends BaseConfig {
 
 
     @ApiOperation("根据ID查询")
-    @ApiImplicitParam(name = "id", value = "id", dataType = "Long", paramType = "query", example = "1")
     @GetMapping("getOne")
-    public Result getOne(@RequestParam Long id) {
-        if (ObjUtil.isEmpty(id)) {
+    public Result getOne(IdVO idVO) {
+        if (ObjUtil.isEmpty(idVO.getId())) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
         }
-        Optional<Admin> optional = adminRepository.findById(id);
+        Optional<Admin> optional = adminRepository.findById(idVO.getId());
         Admin admin = optional.orElse(null);
         if (admin == null) {
             return Result.error(ResultCodeEnum.PARAM_ERROR);
@@ -176,7 +174,7 @@ public class AdminController extends BaseConfig {
             @ApiImplicitParam(name = "page", value = "页数，从0开始", dataType = "int", paramType = "query", example = "0"),
             @ApiImplicitParam(name = "sort", value = "排序规则，可传入多个sort参数", dataType = "string", paramType = "query", example = "createdAt")
     })
-    public Result findAll(@PageableDefault Pageable pageable) {
+    public Result findAll(@PageableDefault Pageable pageable, AdminVO adminVO) {
         QAdmin qAdmin = QAdmin.admin;
         Predicate predicate = new BooleanBuilder();
         if (!ObjUtil.isEmpty(request.getParameter("username"))) {

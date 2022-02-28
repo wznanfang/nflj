@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class IdVO implements Serializable {
     private static final long serialVersionUID = 188120544333332056L;
 
-    @ApiModelProperty(value = "用户id", example = "1")
+    @ApiModelProperty(value = "id", example = "1")
     private Long id;
 
 

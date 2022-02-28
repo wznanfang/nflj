@@ -31,4 +31,15 @@ public class AdminVO implements Serializable {
     @ApiModelProperty(value = "激活")
     private Boolean enabled;
 
+    @ApiModelProperty(value = "每页显示条数")
+    private Integer size;
+
+    @ApiModelProperty(value = "页数，从0开始")
+    private Integer page;
+
+    @ApiModelProperty(value = "排序规则，可传入多个sort参数")
+    private String sort;
+
+
+
 }

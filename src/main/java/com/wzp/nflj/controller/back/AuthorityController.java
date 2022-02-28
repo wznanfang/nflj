@@ -12,7 +12,6 @@ import com.wzp.nflj.util.Result;
 import com.wzp.nflj.vo.AuthorityVO;
 import com.wzp.nflj.vo.IdVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -108,14 +107,12 @@ public class AuthorityController extends BaseConfig {
 
 
     @ApiOperation("根据角色获取权限")
-    @ApiImplicitParam(name = "roleId", paramType = "query", dataType = "Long", example = "1", required = true, value = "角色id")
     @GetMapping("findByRole")
-    public Result<List<Authority>> findByRole(@RequestParam Long roleId) {
-        if (ObjUtil.isEmpty(roleId)) {
+    public Result<List<Authority>> findByRole(IdVO idVO) {
+        if (ObjUtil.isEmpty(idVO.getId())) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
         }
-        Long id = Long.valueOf(request.getParameter("roleId"));
-        Optional<Role> optional = roleRepository.findById(id);
+        Optional<Role> optional = roleRepository.findById(idVO.getId());
         if (!optional.isPresent()) {
             return Result.error(ResultCodeEnum.PARAM_ERROR);
         }

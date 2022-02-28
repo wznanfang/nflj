@@ -111,14 +111,12 @@ public class RoleController extends BaseConfig {
 
 
     @ApiOperation("根据用户获取角色")
-    @ApiImplicitParam(name = "adminId", paramType = "query", dataType = "Long", example = "1", required = true, value = "后台用户id")
-    @GetMapping("findByAdmin")
-    public Result<List<Role>> findByAdmin(@RequestParam Long adminId) {
-        if (ObjUtil.isEmpty(adminId)) {
+    @GetMapping("findByAdminId")
+    public Result<List<Role>> findByAdmin(IdVO idVO) {
+        if (ObjUtil.isEmpty(idVO.getId())) {
             return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
         }
-        Long id = Long.valueOf(request.getParameter("adminId"));
-        Optional<Admin> optional = adminRepository.findById(id);
+        Optional<Admin> optional = adminRepository.findById(idVO.getId());
         if (!optional.isPresent()) {
             return Result.error(ResultCodeEnum.PARAM_ERROR);
         }

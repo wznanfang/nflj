@@ -26,9 +26,6 @@ public class SysLog extends Model{
     @ApiModelProperty("用户名")
     private String username;
 
-    @ApiModelProperty("操作时间")
-    private Long startTime;
-
     @ApiModelProperty("消耗时间")
     private Long spendTime;
 
@@ -43,9 +40,6 @@ public class SysLog extends Model{
 
     @ApiModelProperty("请求参数")
     private String parameter;
-
-    @ApiModelProperty("请求返回的结果")
-    private String result;
 
 
 }
