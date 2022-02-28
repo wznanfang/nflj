@@ -1,6 +1,8 @@
 package com.wzp.nflj.repository;
 
+import com.querydsl.core.types.Predicate;
 import com.wzp.nflj.model.Admin;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 /**
  * @Author wzp
@@ -24,12 +25,15 @@ public interface AdminRepository extends JpaRepository<Admin, Long>, QuerydslPre
     Admin findByUsername(String username);
 
     @Override
+    Admin save(Admin admin);
+
+    @Override
     Optional<Admin> findById(Long id);
 
     @Query("select count (a.id) from Admin a")
     long findCount();
 
     @Override
-    Page<Admin> findAll(Pageable pageable);
+    Page<Admin> findAll(Predicate predicate,Pageable pageable);
 
 }
