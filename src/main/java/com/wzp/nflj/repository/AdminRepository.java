@@ -28,12 +28,14 @@ public interface AdminRepository extends JpaRepository<Admin, Long>, QuerydslPre
     Admin save(Admin admin);
 
     @Override
+    @Cacheable(value = "admin")
     Optional<Admin> findById(Long id);
 
     @Query("select count (a.id) from Admin a")
     long findCount();
 
     @Override
+    @Cacheable(value = "admin")
     Page<Admin> findAll(Predicate predicate,Pageable pageable);
 
 }
