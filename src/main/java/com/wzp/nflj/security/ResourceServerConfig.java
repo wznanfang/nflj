@@ -42,7 +42,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/common/getTime", "/common/getCode",
-                        "/back/admin/login","/back/admin/easyExcelDownload").permitAll()
+                        "/back/admin/login").permitAll()
                 .antMatchers("/", "/doc.html", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui.html**", "/webjars/**").permitAll()
                 .anyRequest().authenticated().and()
                 .httpBasic().and();

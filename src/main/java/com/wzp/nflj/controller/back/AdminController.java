@@ -188,12 +188,12 @@ public class AdminController extends BaseConfig {
         Long totalNum = adminRepository.findCount();
         if (totalNum > 0) {
             String fileName = "系统用户表" + DateUtil.sysTime() + ".xlsx";
-            //保存到本地服务器
+            //先保存到本地服务器
             boolean excelExport = easyExcelWriteService.adminExcelExport(totalNum, fileName);
             if (!excelExport) {
                 return Result.error(ResultCodeEnum.EXCEL_EXPORT_FAIL);
             }
-            //通过浏览器下载
+            //再通过浏览器下载
             boolean excelDownload = new EasyExcelWriteUtil().downloadExcel(response, fileName);
             if (!excelDownload) {
                 return Result.error(ResultCodeEnum.EXCEL_DOWNLAND_FAIL);
@@ -206,8 +206,7 @@ public class AdminController extends BaseConfig {
 
 
     @ApiOperation("使用easyExcel导入到数据库")
-    @ApiImplicitParam(name = "filename", value = "文件名", dataType = "string", paramType = "query", example = "G:/oauth-server/excel/1608702092807" +
-            ".xlsx")
+    @ApiImplicitParam(name = "filename", value = "文件名", dataType = "string", paramType = "query", example = "G:/excel/1608702092807.xlsx")
     @GetMapping("/easyExcelImport")
     public Result easyExcelImport() {
         String filename = request.getParameter("filename");
