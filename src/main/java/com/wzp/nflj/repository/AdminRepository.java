@@ -25,6 +25,7 @@ public interface AdminRepository extends JpaRepository<Admin, Long>, QuerydslPre
     Admin findByUsername(String username);
 
     @Override
+    @CacheEvict(value = "admin",allEntries = true)
     Admin save(Admin admin);
 
     @Override
