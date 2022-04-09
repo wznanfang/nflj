@@ -32,6 +32,9 @@ public class SysLog extends Model{
     @ApiModelProperty("url")
     private String url;
 
+    @ApiModelProperty("urlPath")
+    private String urlPath;
+
     @ApiModelProperty("请求类型")
     private String method;
 
