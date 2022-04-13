@@ -43,7 +43,7 @@ custom-config:
   dbUsername: root
   dbPassword: 123456
   ipData: F:\ipData\ip2region.db
-  fileSave: F:\nflj\
-  excelSavePath: F:\nflj\excel\
+  fileSave: E:\java\nflj\
+  excelSavePath: E:\java\nflj\excel\
 
 
