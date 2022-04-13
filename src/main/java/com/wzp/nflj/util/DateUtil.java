@@ -1,5 +1,7 @@
 package com.wzp.nflj.util;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,36 @@ public class DateUtil {
      */
     public static long sysTime() {
         return System.currentTimeMillis();
+    }
+
+
+    /**
+     * 使用LocalDateTime获取现在的时间
+     *
+     * @return 时间
+     */
+    public static LocalDateTime localDateTime() {
+        return LocalDateTime.now();
+    }
+
+
+    /**
+     * 使用LocalDate获取现在的时间 只能获取到年月日
+     *
+     * @return
+     */
+    public static LocalDate localDate() {
+        return LocalDate.now();
+    }
+
+
+    /**
+     * 使用LocalTime获取现在的时间 只能获取到时分秒毫秒
+     *
+     * @return
+     */
+    public static LocalTime localTime() {
+        return LocalTime.now();
     }
 
 
@@ -46,28 +78,19 @@ public class DateUtil {
 
 
     /**
-     * 使用LocalDateTime获取现在的时间
-     *
-     * @return 时间
-     */
-    public static LocalDateTime nowTime() {
-        return LocalDateTime.now();
-    }
-
-
-    /**
      * 使用LocalDateTime获取现在的时间并格式化
      *
      * @return 格式化后的时间 yyyy-MM-dd HH:mm:ss
      */
     public static String formatLocalDateTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return nowTime().format(formatter);
+        return localDateTime().format(formatter);
     }
 
 
     /**
      * 将LocalDateTime格式的时间格式化
+     *
      * @param localDateTime 时间
      * @return 格式化后的时间 yyyy-MM-dd HH:mm:ss
      */
@@ -96,26 +119,6 @@ public class DateUtil {
      */
     public static LocalDateTime timestampToLocalDateTime(long timestamp) {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
-    }
-
-
-    /**
-     * 使用LocalDate获取现在的时间 只能获取到年月日
-     *
-     * @return
-     */
-    public static LocalDate localDate() {
-        return LocalDate.now();
-    }
-
-
-    /**
-     * 使用LocalTime获取现在的时间 只能获取到时分秒毫秒
-     *
-     * @return
-     */
-    public static LocalTime localTime() {
-        return LocalTime.now();
     }
 
 
@@ -177,9 +180,9 @@ public class DateUtil {
     public static Long lastDayTimeOfMonth() {
         return localDate().plusMonths(1).withDayOfMonth(1).atStartOfDay(ZoneOffset.ofHours(8)).minusSeconds(1L).toInstant().toEpochMilli();
     }
-    
-    
-     /**
+
+
+    /**
      * 获取上月第一天的零点时间戳
      *
      * @return

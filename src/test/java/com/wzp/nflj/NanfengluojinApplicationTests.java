@@ -1,6 +1,7 @@
 package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
+import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.Reflection.ReflectUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,8 @@ class NanfengluojinApplicationTests {
 
     @Test
     void contextLoads() {
+       System.out.println( DateUtil.firstDayZero());
+       System.out.println( DateUtil.lastDayZero());
     }
 
 
