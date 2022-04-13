@@ -1,7 +1,5 @@
 package com.wzp.nflj.util;
 
-import org.apache.commons.lang3.time.DateUtils;
-
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -139,6 +137,28 @@ public class DateUtil {
      */
     public static Long lastDayZero() {
         return localDate().plusDays(1).atStartOfDay(ZoneOffset.ofHours(8)).minusSeconds(1L).toInstant().toEpochMilli();
+    }
+
+
+    /**
+     * 获得以当前时间为准，以偏移量为距离的日期零点的时间戳
+     *
+     * @param day 偏移量 可为负数
+     * @return
+     */
+    public static Long offsetDayZero(Long day) {
+        return localDate().plusDays(day).atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
+    }
+
+
+    /**
+     * 获得以当前时间为准，以偏移量为距离的时间戳
+     *
+     * @param day 偏移量 可为负数
+     * @return
+     */
+    public static Long offsetTimestamp(Long day) {
+        return localDateTime().plusDays(day).toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 

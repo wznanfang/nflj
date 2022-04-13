@@ -10,6 +10,10 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,8 +96,12 @@ class NanfengluojinApplicationTests {
      */
     @Test
     void test2() {
-        int aa = (int) ((Math.random() * 9 + 1) * 10000);
-        System.out.println(aa);
+//        int aa = (int) ((Math.random() * 9 + 1) * 10000);
+//        System.out.println(aa);
+        System.out.println(LocalDateTime.of(LocalDate.now(), LocalTime.MIN));
+        System.out.println(LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
+        System.out.println(LocalDate.now().atStartOfDay());
+        System.out.println(LocalDateTime.now().plusDays(-1).toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
     }
 
 }
