@@ -1,6 +1,9 @@
 package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
+import com.wzp.nflj.rsa.Base64;
+import com.wzp.nflj.rsa.RSAEncrypt;
+import com.wzp.nflj.rsa.RSASignature;
 import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.Reflection.ReflectUtil;
 import org.junit.jupiter.api.Test;
@@ -22,8 +25,8 @@ class NanfengluojinApplicationTests {
 
     @Test
     void contextLoads() {
-       System.out.println( DateUtil.firstDayZero());
-       System.out.println( DateUtil.lastDayZero());
+        System.out.println(DateUtil.firstDayZero());
+        System.out.println(DateUtil.lastDayZero());
     }
 
 
@@ -102,6 +105,55 @@ class NanfengluojinApplicationTests {
         System.out.println(LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
         System.out.println(LocalDate.now().atStartOfDay());
         System.out.println(LocalDateTime.now().plusDays(-1).toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
+    }
+
+
+    /**
+     * 测试公钥私钥加解密
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test3() throws Exception {
+        //生成公钥和私钥
+        String filepath = "F:/";
+//        RSAEncrypt.genKeyPair(filepath);
+
+        System.out.println("--------------公钥加密私钥解密过程-------------------");
+        String plainText = "ihep_666666666666";
+        //公钥加密过程
+        byte[] cipherData = RSAEncrypt.encrypt(RSAEncrypt.loadPublicKeyByStr(RSAEncrypt.loadPublicKeyByFile(filepath)), plainText.getBytes());
+        String cipher = Base64.encode(cipherData);
+        //私钥解密过程
+        byte[] res = RSAEncrypt.decrypt(RSAEncrypt.loadPrivateKeyByStr(RSAEncrypt.loadPrivateKeyByFile(filepath)), Base64.decode(cipher));
+        String restr = new String(res);
+        System.out.println("原文：" + plainText);
+        System.out.println("加密：" + cipher);
+        System.out.println("解密：" + restr);
+        System.out.println();
+
+        System.out.println("--------------私钥加密公钥解密过程-------------------");
+        plainText = "ihep_私钥加密公钥解密";
+        //私钥加密过程
+        cipherData = RSAEncrypt.encrypt(RSAEncrypt.loadPrivateKeyByStr(RSAEncrypt.loadPrivateKeyByFile(filepath)), plainText.getBytes());
+        cipher = Base64.encode(cipherData);
+        //公钥解密过程
+        res = RSAEncrypt.decrypt(RSAEncrypt.loadPublicKeyByStr(RSAEncrypt.loadPublicKeyByFile(filepath)), Base64.decode(cipher));
+        restr = new String(res);
+        System.out.println("原文：" + plainText);
+        System.out.println("加密：" + cipher);
+        System.out.println("解密：" + restr);
+        System.out.println();
+
+        System.out.println("---------------私钥签名过程------------------");
+        String content = "ihep_这是用于签名的原始数据";
+        System.out.println("签名原串：" + content);
+        String signstr = RSASignature.sign(content, RSAEncrypt.loadPrivateKeyByFile(filepath));
+        System.out.println("签名串：" + signstr);
+        System.out.println("---------------公钥校验签名------------------");
+        System.out.println("验签结果：" + RSASignature.doCheck(content, signstr, RSAEncrypt.loadPublicKeyByFile(filepath)));
+        System.out.println();
+
     }
 
 }
