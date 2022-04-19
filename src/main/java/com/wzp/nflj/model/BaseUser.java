@@ -1,7 +1,7 @@
 package com.wzp.nflj.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.wzp.nflj.util.Reflection.Reflection;
+import com.wzp.nflj.util.reflection.Reflection;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

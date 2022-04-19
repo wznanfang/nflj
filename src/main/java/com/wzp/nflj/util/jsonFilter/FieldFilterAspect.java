@@ -1,4 +1,4 @@
-package com.wzp.nflj.util.JsonFilter;
+package com.wzp.nflj.util.jsonFilter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

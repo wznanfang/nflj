@@ -1,4 +1,4 @@
-package com.wzp.nflj.util.JsonFilter;
+package com.wzp.nflj.util.jsonFilter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

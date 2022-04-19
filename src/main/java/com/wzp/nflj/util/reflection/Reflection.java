@@ -1,4 +1,4 @@
-package com.wzp.nflj.util.Reflection;
+package com.wzp.nflj.util.reflection;
 
 import java.lang.annotation.*;
 

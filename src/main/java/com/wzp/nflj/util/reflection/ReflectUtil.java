@@ -1,4 +1,4 @@
-package com.wzp.nflj.util.Reflection;
+package com.wzp.nflj.util.reflection;
 
 import com.wzp.nflj.util.ObjUtil;
 
