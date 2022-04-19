@@ -1,5 +1,7 @@
 package com.wzp.nflj.rsa;
 
+import com.wzp.nflj.util.Base64Util;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -36,9 +38,9 @@ public class RSAEncrypt {
             // 得到公钥
             RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
             // 得到公钥字符串
-            String publicKeyString = Base64.encode(publicKey.getEncoded());
+            String publicKeyString = Base64Util.encode(publicKey.getEncoded());
             // 得到私钥字符串
-            String privateKeyString = Base64.encode(privateKey.getEncoded());
+            String privateKeyString = Base64Util.encode(privateKey.getEncoded());
             // 将密钥对写入到文件
             FileWriter pubfw = new FileWriter(filePath + "/publicKey.keystore");
             FileWriter prifw = new FileWriter(filePath + "/privateKey.keystore");
@@ -88,7 +90,7 @@ public class RSAEncrypt {
      */
     public static RSAPublicKey loadPublicKeyByStr(String publicKeyStr) throws Exception {
         try {
-            byte[] buffer = Base64.decode(publicKeyStr);
+            byte[] buffer = Base64Util.decodeStr(publicKeyStr);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
             return (RSAPublicKey) keyFactory.generatePublic(keySpec);
@@ -135,7 +137,7 @@ public class RSAEncrypt {
      */
     public static RSAPrivateKey loadPrivateKeyByStr(String privateKeyStr) throws Exception {
         try {
-            byte[] buffer = Base64.decode(privateKeyStr);
+            byte[] buffer = Base64Util.decodeStr(privateKeyStr);
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);

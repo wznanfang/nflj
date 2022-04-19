@@ -1,9 +1,9 @@
 package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
-import com.wzp.nflj.rsa.Base64;
 import com.wzp.nflj.rsa.RSAEncrypt;
 import com.wzp.nflj.rsa.RSASignature;
+import com.wzp.nflj.util.Base64Util;
 import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.Reflection.ReflectUtil;
 import org.junit.jupiter.api.Test;
@@ -123,9 +123,9 @@ class NanfengluojinApplicationTests {
         String plainText = "ihep_666666666666";
         //公钥加密过程
         byte[] cipherData = RSAEncrypt.encrypt(RSAEncrypt.loadPublicKeyByStr(RSAEncrypt.loadPublicKeyByFile(filepath)), plainText.getBytes());
-        String cipher = Base64.encode(cipherData);
+        String cipher = Base64Util.encode(cipherData);
         //私钥解密过程
-        byte[] res = RSAEncrypt.decrypt(RSAEncrypt.loadPrivateKeyByStr(RSAEncrypt.loadPrivateKeyByFile(filepath)), Base64.decode(cipher));
+        byte[] res = RSAEncrypt.decrypt(RSAEncrypt.loadPrivateKeyByStr(RSAEncrypt.loadPrivateKeyByFile(filepath)), Base64Util.decodeStr(cipher));
         String restr = new String(res);
         System.out.println("原文：" + plainText);
         System.out.println("加密：" + cipher);
@@ -136,9 +136,9 @@ class NanfengluojinApplicationTests {
         plainText = "ihep_私钥加密公钥解密";
         //私钥加密过程
         cipherData = RSAEncrypt.encrypt(RSAEncrypt.loadPrivateKeyByStr(RSAEncrypt.loadPrivateKeyByFile(filepath)), plainText.getBytes());
-        cipher = Base64.encode(cipherData);
+        cipher = Base64Util.encode(cipherData);
         //公钥解密过程
-        res = RSAEncrypt.decrypt(RSAEncrypt.loadPublicKeyByStr(RSAEncrypt.loadPublicKeyByFile(filepath)), Base64.decode(cipher));
+        res = RSAEncrypt.decrypt(RSAEncrypt.loadPublicKeyByStr(RSAEncrypt.loadPublicKeyByFile(filepath)), Base64Util.decodeStr(cipher));
         restr = new String(res);
         System.out.println("原文：" + plainText);
         System.out.println("加密：" + cipher);
