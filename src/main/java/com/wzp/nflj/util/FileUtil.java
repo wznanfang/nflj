@@ -277,26 +277,23 @@ public class FileUtil {
      * @return 返回文件本地存储全路径
      */
     public static String downloadFileAsUrl(String url, String path) {
-        String fileName = getFileName(url);
         fileExist(path);
-        String filePath = path + fileName;
         int index = 0;
-        String returnValue = download(url, filePath, index);
+        String returnValue = download(url, path, index);
         if (returnValue.equals(HTTP_404)) {
             return HTTP_404;
         }
-        return filePath;
+        return returnValue;
     }
 
 
     /**
-     * @param url      文件网络路径
-     * @param filePath 文件本地存储路径
-     * @param index    重试次数
+     * @param url   文件网络路径
+     * @param path  文件本地存储路径
+     * @param index 重试次数
      * @return 返回结果 200 表示下载成功，404表示下载失败，网路文件路径不正确
      */
-    public static String download(String url, String filePath, int index) {
-        fileExist(filePath);
+    public static String download(String url, String path, int index) {
         File file = new File(url);
         try {
             // 建立连接
@@ -307,7 +304,7 @@ public class FileUtil {
                     index = index + 1;
                     log.warn("建立连接失败，第{}次重试开始......", index);
                     Thread.sleep(1000);
-                    download(url, filePath, index);
+                    download(url, path, index);
                 } else {
                     return HTTP_404;
                 }
@@ -318,7 +315,7 @@ public class FileUtil {
             InputStream inputStream = conn.getInputStream();
             BufferedInputStream bis = new BufferedInputStream(inputStream);
             //写入到文件（注意文件保存路径的后面一定要加上文件的名称）
-            FileOutputStream fos = new FileOutputStream(filePath + file.getName());
+            FileOutputStream fos = new FileOutputStream(path + file.getName());
             byte[] buf = new byte[1024];
             int length = bis.read(buf);
             //保存文件
@@ -334,7 +331,7 @@ public class FileUtil {
             e.printStackTrace();
         }
         log.info("下载成功!!!");
-        return HTTP_200;
+        return path + file.getName();
     }
 
 
