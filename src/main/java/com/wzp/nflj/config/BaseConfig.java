@@ -48,8 +48,6 @@ public class BaseConfig {
     @Resource
     private TokenEndpoint tokenEndpoint;
     @Resource
-    public RestTemplate restTemplate;
-    @Resource
     public RedisTemplate redisTemplate;
     @Resource
     private UserRepository userRepository;

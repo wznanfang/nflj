@@ -29,10 +29,7 @@ import java.nio.file.StandardOpenOption;
 public class FileUtil {
 
     private static final int BF_SIZE = 1024;
-
-    private static final String HTTP_200 = "200";
     private static final String HTTP_404 = "404";
-
     private static int TRY_NUMBER = 3;
 
 
@@ -279,11 +276,7 @@ public class FileUtil {
     public static String downloadFileAsUrl(String url, String path) {
         fileExist(path);
         int index = 0;
-        String returnValue = download(url, path, index);
-        if (returnValue.equals(HTTP_404)) {
-            return HTTP_404;
-        }
-        return returnValue;
+        return download(url, path, index);
     }
 
 
