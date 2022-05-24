@@ -1,7 +1,7 @@
 package com.wzp.nflj.util.fileUpload.util;
 
 import com.wzp.nflj.config.CustomConfig;
-import com.wzp.nflj.enums.ResultCodeEnum;
+import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.util.FileUtil;
 import com.wzp.nflj.util.Result;
 import com.wzp.nflj.util.fileUpload.vo.CheckMd5FileVO;
@@ -51,7 +51,7 @@ public class FileUploadUtil {
     public static Result check(CheckMd5FileVO md5FileVO) {
         if (md5FileVO.getType() == null || md5FileVO.getChunk() == null || md5FileVO.getFileMd5() == null ||
                 md5FileVO.getSuffix() == null || md5FileVO.getFileName() == null) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Integer type = md5FileVO.getType();
         Long chunk = md5FileVO.getChunk();
@@ -65,7 +65,7 @@ public class FileUploadUtil {
             if (destFile.exists() && destFile.length() == fileSize) {
                 return Result.ok(new FileVO(fileName, fileSize));
             } else {
-                return Result.error(ResultCodeEnum.FILE_NOT_EXISTS);
+                return Result.error(ResultEnum.FILE_NOT_EXISTS);
             }
         } else {// 分片校验
             String fileMd5 = md5FileVO.getFileMd5();
@@ -74,9 +74,9 @@ public class FileUploadUtil {
             String destFilePath = destFileDir + File.separator + destFileName;
             File destFile = new File(destFilePath);
             if (destFile.exists() && destFile.length() == fileSize) {
-                return Result.error(ResultCodeEnum.CHUNK_EXISTS);
+                return Result.error(ResultEnum.CHUNK_EXISTS);
             } else {
-                return Result.error(ResultCodeEnum.CHUNK_NOT_EXISTS);
+                return Result.error(ResultEnum.CHUNK_NOT_EXISTS);
             }
         }
     }
@@ -109,10 +109,10 @@ public class FileUploadUtil {
                 file.transferTo(destFile);
                 return Result.ok(new FileVO(fileName));
             } catch (Exception e) {
-                return Result.error(ResultCodeEnum.FILE_UPLOAD_ERROR);
+                return Result.error(ResultEnum.FILE_UPLOAD_ERROR);
             }
         }
-        return Result.error(ResultCodeEnum.UPLOAD_FAIL);
+        return Result.error(ResultEnum.UPLOAD_FAIL);
     }
 
 
@@ -143,7 +143,7 @@ public class FileUploadUtil {
         try {
             file.transferTo(chunkFile);
         } catch (Exception e) {
-            return Result.error(ResultCodeEnum.CHUNK_UPLOAD_ERROR);
+            return Result.error(ResultEnum.CHUNK_UPLOAD_ERROR);
         }
         // 合并分片
         Long chunkSize = uploadVO.getChunkSize();
@@ -154,7 +154,7 @@ public class FileUploadUtil {
             try {
                 randomAccessFile(chunkFile, destFile, seek);
             } catch (IOException e) {
-                return Result.error(ResultCodeEnum.CHUNK_MERGE_FAIL);
+                return Result.error(ResultEnum.CHUNK_MERGE_FAIL);
             }
         }
         if (chunk == chunks - 1) {
@@ -162,7 +162,7 @@ public class FileUploadUtil {
             FileUtil.deleteFolder(new File(chunkFilePath));
             return Result.ok(new FileVO(fileName));
         } else {
-            return Result.error(ResultCodeEnum.UPLOADING);
+            return Result.error(ResultEnum.UPLOADING);
         }
     }
 

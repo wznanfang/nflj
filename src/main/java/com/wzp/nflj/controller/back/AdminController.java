@@ -6,7 +6,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.wzp.nflj.config.BaseConfig;
 import com.wzp.nflj.config.CustomConfig;
-import com.wzp.nflj.enums.ResultCodeEnum;
+import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.model.Admin;
 import com.wzp.nflj.model.Authority;
 import com.wzp.nflj.model.QAdmin;
@@ -66,21 +66,21 @@ public class AdminController extends BaseConfig {
     @PostMapping("/login")
     public Result login(@RequestBody LoginVO loginVO) {
         if (ObjUtil.isEmpty(loginVO.getUsername()) || ObjUtil.isEmpty(loginVO.getPassword())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Map<String, Object> map1 = new HashMap<>(2);
         String username = loginVO.getUsername();
         String password = loginVO.getPassword();
         Admin admin = adminRepository.findByUsername(username);
         if (admin == null) {
-            return Result.error(ResultCodeEnum.ERROR_USERNAME_OR_PASSWORD);
+            return Result.error(ResultEnum.ERROR_USERNAME_OR_PASSWORD);
         }
         if (!admin.getEnabled()) {
-            return Result.error(ResultCodeEnum.USER_NOT_ENABLE);
+            return Result.error(ResultEnum.USER_NOT_ENABLE);
         }
         boolean flag = passwordEncoder.matches(password, admin.getPassword());
         if (!flag) {
-            return Result.error(ResultCodeEnum.ERROR_USERNAME_OR_PASSWORD);
+            return Result.error(ResultEnum.ERROR_USERNAME_OR_PASSWORD);
         }
         String ip = IpUtil.getRealIp(request);
         admin.setLastLoginIp(ip);
@@ -92,7 +92,7 @@ public class AdminController extends BaseConfig {
         //获取token
         ResponseEntity<OAuth2AccessToken> responseEntity = getToken(username, password);
         if (responseEntity == null) {
-            return Result.error(ResultCodeEnum.FORBIDDEN);
+            return Result.error(ResultEnum.FORBIDDEN);
         }
         map1.put("admin", admin);
         map1.put("token", responseEntity.getBody());
@@ -114,12 +114,12 @@ public class AdminController extends BaseConfig {
     @ApiOperationSupport(ignoreParameters = {"id", "roleIds", "enabled", "size", "page", "sort"})
     public Result<Admin> register(@RequestBody AdminVO adminVO) {
         if (ObjUtil.isEmpty(adminVO.getUsername()) || ObjUtil.isEmpty(adminVO.getPhone())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         String username = adminVO.getUsername();
         Admin admin = adminRepository.findByUsername(username);
         if (admin != null) {
-            return Result.error(ResultCodeEnum.HAS_USER);
+            return Result.error(ResultEnum.HAS_USER);
         }
         admin = new Admin();
         admin.setUsername(username);
@@ -136,12 +136,12 @@ public class AdminController extends BaseConfig {
     @PostMapping("delete")
     public Result delete(@RequestBody IdVO idVO) {
         if (ObjUtil.isEmpty(idVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Optional<Admin> optional = adminRepository.findById(idVO.getId());
         Admin admin = optional.orElse(null);
         if (admin == null) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         admin.setEnabled(false);
         adminRepository.save(admin);
@@ -153,12 +153,12 @@ public class AdminController extends BaseConfig {
     @GetMapping("getOne")
     public Result getOne(IdVO idVO) {
         if (ObjUtil.isEmpty(idVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Optional<Admin> optional = adminRepository.findById(idVO.getId());
         Admin admin = optional.orElse(null);
         if (admin == null) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         return Result.ok(admin);
     }
@@ -191,12 +191,12 @@ public class AdminController extends BaseConfig {
             //先保存到本地服务器
             boolean excelExport = easyExcelWriteService.adminExcelExport(totalNum, fileName);
             if (!excelExport) {
-                return Result.error(ResultCodeEnum.EXCEL_EXPORT_FAIL);
+                return Result.error(ResultEnum.EXCEL_EXPORT_FAIL);
             }
             //再通过浏览器下载
             boolean excelDownload = new EasyExcelWriteUtil().downloadExcel(response, fileName);
             if (!excelDownload) {
-                return Result.error(ResultCodeEnum.EXCEL_DOWNLAND_FAIL);
+                return Result.error(ResultEnum.EXCEL_DOWNLAND_FAIL);
             }
         }
         //如果这里有返回会导致 Cannot call sendError() after the response has been committed 错误
@@ -213,7 +213,7 @@ public class AdminController extends BaseConfig {
         // 这里 需要指定用哪个class去读，然后读取第一个sheet 文件流会自动关闭
         //读取多个sheet
         EasyExcel.read(filename, Admin.class, new EasyExcelReadListener(AdminRepository.class)).doReadAll();
-        return Result.ok(ResultCodeEnum.EXCEL_IMPORT_SUCCESS);
+        return Result.ok(ResultEnum.EXCEL_IMPORT_SUCCESS);
     }
 
 

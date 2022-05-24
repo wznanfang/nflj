@@ -2,7 +2,7 @@ package com.wzp.nflj.controller.back;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.wzp.nflj.config.BaseConfig;
-import com.wzp.nflj.enums.ResultCodeEnum;
+import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.model.Authority;
 import com.wzp.nflj.model.Role;
 import com.wzp.nflj.repository.AuthorityRepository;
@@ -43,11 +43,11 @@ public class AuthorityController extends BaseConfig {
     @PostMapping("save")
     public Result<Authority> save(@RequestBody Authority authority) {
         if (ObjUtil.isEmpty(authority.getIdCode())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Long idCode = authority.getIdCode();
         if (authorityRepository.findByIdCode(idCode) != null) {
-            return Result.error(ResultCodeEnum.ID_CODE_EXISTENT);
+            return Result.error(ResultEnum.ID_CODE_EXISTENT);
         }
         Authority authority1 = authorityRepository.save(authority);
         return Result.ok(authority1);
@@ -59,12 +59,12 @@ public class AuthorityController extends BaseConfig {
     @PostMapping("delete")
     public Result delete(@RequestBody IdVO idVO) {
         if (ObjUtil.isEmpty(idVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Long id = idVO.getId();
         Optional<Authority> optional = authorityRepository.findById(id);
         if (!optional.isPresent()) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         roleAuthorityRepository.deleteAllByAuthority(optional.get());
         authorityRepository.delete(optional.get());
@@ -76,12 +76,12 @@ public class AuthorityController extends BaseConfig {
     @PostMapping("update")
     public Result<Authority> update(@RequestBody AuthorityVO authorityVO) {
         if (ObjUtil.isEmpty(authorityVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Long id = authorityVO.getId();
         Optional<Authority> optional = authorityRepository.findById(id);
         if (!optional.isPresent()) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         Authority authorityObj = optional.get();
         if (!ObjUtil.isEmpty(authorityVO.getName())) {
@@ -99,7 +99,7 @@ public class AuthorityController extends BaseConfig {
         if (!ObjUtil.isEmpty(authorityVO.getIdCode())) {
             Long idCode = authorityVO.getIdCode();
             if (authorityRepository.findByIdCode(idCode) != null) {
-                return Result.error(ResultCodeEnum.ID_CODE_EXISTENT);
+                return Result.error(ResultEnum.ID_CODE_EXISTENT);
             }
             authorityObj.setIdCode(idCode);
         }
@@ -112,11 +112,11 @@ public class AuthorityController extends BaseConfig {
     @GetMapping("findByRole")
     public Result<List<Authority>> findByRole(IdVO idVO) {
         if (ObjUtil.isEmpty(idVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Optional<Role> optional = roleRepository.findById(idVO.getId());
         if (!optional.isPresent()) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         Role role = optional.get();
         List<Authority> list = roleAuthorityRepository.findAuthorityByRole(role);

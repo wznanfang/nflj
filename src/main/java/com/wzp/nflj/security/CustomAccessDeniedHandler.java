@@ -1,7 +1,7 @@
 package com.wzp.nflj.security;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wzp.nflj.enums.ResultCodeEnum;
+import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.util.Result;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -26,6 +26,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
         //Access-Control-Max-Age 用于 CORS 相关配置的缓存
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        response.getWriter().write(JSONObject.toJSONString(Result.error(ResultCodeEnum.ACCESS_DENIED)));
+        response.getWriter().write(JSONObject.toJSONString(Result.error(ResultEnum.ACCESS_DENIED)));
     }
 }

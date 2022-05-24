@@ -4,7 +4,7 @@ package com.wzp.nflj.enums;
  * @Author: zp.wei
  * @DATE: 2020/9/1 10:31
  */
-public enum ResultCodeEnum {
+public enum ResultEnum {
 
     RESULT_SUCCESS(true, 0, "请求成功"),
     BUSINESS_FAIL(false, 1, "业务处理失败"),
@@ -59,7 +59,7 @@ public enum ResultCodeEnum {
         return message;
     }
 
-    private ResultCodeEnum(Boolean success, Integer code, String message) {
+    private ResultEnum(Boolean success, Integer code, String message) {
         this.success = success;
         this.code = code;
         this.message = message;
