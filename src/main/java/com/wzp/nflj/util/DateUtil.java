@@ -12,6 +12,8 @@ import java.util.Date;
 public class DateUtil {
 
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     /**
      * 获取当前系统时间
      *
@@ -81,7 +83,6 @@ public class DateUtil {
      * @return 格式化后的时间 yyyy-MM-dd HH:mm:ss
      */
     public static String formatLocalDateTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime().format(formatter);
     }
 
@@ -93,7 +94,6 @@ public class DateUtil {
      * @return 格式化后的时间 yyyy-MM-dd HH:mm:ss
      */
     public static String formatLocalDateTime(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter);
     }
 
@@ -125,8 +125,8 @@ public class DateUtil {
      *
      * @return
      */
-    public static Long firstDayZero() {
-        return localDate().atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
+    public static Long dayZeroTime() {
+        return localDate().atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
@@ -135,8 +135,8 @@ public class DateUtil {
      *
      * @return
      */
-    public static Long lastDayZero() {
-        return localDate().plusDays(1).atStartOfDay(ZoneOffset.ofHours(8)).minusSeconds(1L).toInstant().toEpochMilli();
+    public static Long dayLastTime() {
+        return localDate().plusDays(1).atStartOfDay().minusSeconds(1L).toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
@@ -146,18 +146,18 @@ public class DateUtil {
      * @param day 偏移量 可为负数
      * @return
      */
-    public static Long offsetDayZero(Long day) {
-        return localDate().plusDays(day).atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
+    public static Long getDayZeroTime(Integer day) {
+        return localDate().plusDays(day).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
     /**
-     * 获得以当前时间为准，以偏移量为距离的时间戳
+     * 获得以当前时间为准，以偏移量为距离的日期时间戳
      *
      * @param day 偏移量 可为负数
      * @return
      */
-    public static Long offsetTimestamp(Long day) {
+    public static Long getDayTime(Integer day) {
         return localDateTime().plusDays(day).toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
@@ -167,8 +167,8 @@ public class DateUtil {
      *
      * @return
      */
-    public static Long startDayTimeOfWeek() {
-        return localDate().with(DayOfWeek.MONDAY).atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
+    public static Long dayZeroTimeOfWeek() {
+        return localDate().with(DayOfWeek.MONDAY).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
@@ -177,8 +177,30 @@ public class DateUtil {
      *
      * @return
      */
-    public static Long lastDayTimeOfWeek() {
-        return localDate().plusWeeks(1).with(DayOfWeek.MONDAY).atStartOfDay(ZoneOffset.ofHours(8)).minusSeconds(1L).toInstant().toEpochMilli();
+    public static Long dayLastTimeOfWeek() {
+        return localDate().plusWeeks(1).with(DayOfWeek.MONDAY).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).minusSeconds(1L).toEpochMilli();
+    }
+
+
+    /**
+     * 获取以当前时间为准，以偏移量为距离的所在周的周一零点的时间戳
+     *
+     * @param week 偏移量 可为负数
+     * @return
+     */
+    public static Long getDayZeroTimeOfWeek(Integer week) {
+        return localDate().plusWeeks(week).with(DayOfWeek.MONDAY).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+    }
+
+
+    /**
+     * 获取以当前时间为准，以偏移量为距离的所在周的时间戳
+     *
+     * @param week 偏移量 可为负数
+     * @return
+     */
+    public static Long getDayTimeOfWeek(Integer week) {
+        return localDate().plusWeeks(week).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
@@ -187,8 +209,8 @@ public class DateUtil {
      *
      * @return
      */
-    public static Long startDayTimeOfMonth() {
-        return localDate().withDayOfMonth(1).atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
+    public static Long dayZeroTimeOfMonth() {
+        return localDate().withDayOfMonth(1).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
@@ -197,28 +219,39 @@ public class DateUtil {
      *
      * @return
      */
-    public static Long lastDayTimeOfMonth() {
-        return localDate().plusMonths(1).withDayOfMonth(1).atStartOfDay(ZoneOffset.ofHours(8)).minusSeconds(1L).toInstant().toEpochMilli();
+    public static Long dayLastTimeOfMonth() {
+        return localDate().plusMonths(1).withDayOfMonth(1).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).minusSeconds(1L).toEpochMilli();
     }
 
 
     /**
-     * 获取上月第一天的零点时间戳
+     * 获取以当前日期为准，以偏移量为距离所在月份的第一天的零点时间戳
      *
+     * @param month 偏移量 可为负数
      * @return
      */
-    public static Long startDayTimeOfLastMonth() {
-        return localDate().minusMonths(1).withDayOfMonth(1).atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
+    public static Long getDayZeroTimeOfMonth(Integer month) {
+        return localDate().plusMonths(month).withDayOfMonth(1).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
+
+    /**
+     * 获取以当前日期为准，以偏移量为距离所在月份的日期的零点时间戳
+     *
+     * @param month 偏移量 可为负数
+     * @return
+     */
+    public static Long getDayTimeOfMonth(Integer month) {
+        return localDate().plusMonths(month).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+    }
 
     /**
      * 获取本年第一天的时间戳
      *
      * @return
      */
-    public static Long firstDayTimeOfYear() {
-        return localDate().withDayOfYear(1).atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
+    public static Long dayZeroTimeOfYear() {
+        return localDate().withDayOfYear(1).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
@@ -227,8 +260,30 @@ public class DateUtil {
      *
      * @return
      */
-    public static Long lastDayTimeOfYear() {
-        return localDate().plusYears(1).withDayOfYear(1).atStartOfDay(ZoneOffset.ofHours(8)).minusSeconds(1L).toInstant().toEpochMilli();
+    public static Long dayLastTimeOfYear() {
+        return localDate().plusYears(1).withDayOfYear(1).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).minusSeconds(1L).toEpochMilli();
+    }
+
+
+    /**
+     * 获得以当前日期为准，以偏移量为距离的所在年的第一天的零点时间戳
+     *
+     * @param year
+     * @return
+     */
+    public static Long getDayZeroTimeOfYear(Integer year) {
+        return localDate().plusYears(year).withDayOfYear(1).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+    }
+
+
+    /**
+     * 获得以当前日期为准，以偏移量为距离的所在年的零点时间戳
+     *
+     * @param year
+     * @return
+     */
+    public static Long getDayTimeOfYear(Integer year) {
+        return localDate().plusYears(year).atStartOfDay().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
     }
 
 
