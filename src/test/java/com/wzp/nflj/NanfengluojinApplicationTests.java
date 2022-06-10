@@ -1,11 +1,10 @@
 package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
+import com.wzp.nflj.util.Base64Util;
+import com.wzp.nflj.util.reflection.ReflectUtil;
 import com.wzp.nflj.util.rsaSign.RSAEncrypt;
 import com.wzp.nflj.util.rsaSign.RSASignature;
-import com.wzp.nflj.util.Base64Util;
-import com.wzp.nflj.util.DateUtil;
-import com.wzp.nflj.util.reflection.ReflectUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,9 +23,7 @@ import java.util.Map;
 class NanfengluojinApplicationTests {
 
     @Test
-    void contextLoads() {
-        System.out.println(DateUtil.firstDayZero());
-        System.out.println(DateUtil.lastDayZero());
+    void contextLoads() throws NoSuchMethodException {
     }
 
 
