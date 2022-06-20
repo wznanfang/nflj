@@ -300,4 +300,39 @@ public class RedisUtil {
         redisTemplate.opsForList().trim(key, start, end);
     }
 
+
+    /**
+     * 存hash数据
+     *
+     * @param key
+     * @param hashKey
+     * @param value
+     */
+    public void hashPut(String key, String hashKey, String value) {
+        redisTemplate.opsForHash().put(key, hashKey, value);
+    }
+
+
+    /**
+     * 批量存储hash数据
+     *
+     * @param key
+     * @param map
+     */
+    public void hashPutAll(String key, Map map) {
+        redisTemplate.opsForHash().putAll(key, map);
+    }
+
+
+    /**
+     * 根据hashKey获取对应的值
+     *
+     * @param key
+     * @param hashKey
+     */
+    public void hashGet(String key, String hashKey) {
+        redisTemplate.opsForHash().get(key, hashKey);
+    }
+
+
 }
