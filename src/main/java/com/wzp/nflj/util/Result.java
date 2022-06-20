@@ -1,8 +1,7 @@
 package com.wzp.nflj.util;
 
 
-import com.wzp.nflj.enums.ResultCodeEnum;
-import io.swagger.annotations.ApiModelProperty;
+import com.wzp.nflj.enums.ResultEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -31,13 +30,39 @@ public class Result<T> implements Serializable {
     private Boolean success;
 
     /**
-     * 响应时间戳
+     * 响应的时间
      */
-    private Long timestamp;
+    private String timestamp;
     /**
      * 成功时响应数据
      */
     private T result;
+
+
+    /**
+     * 请求成功  默认code为0 传入对应的返回结果
+     *
+     * @param result
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> ok(T result) {
+        return new Result<T>()
+                .result(result)
+                .success(ResultEnum.RESULT_SUCCESS.getSuccess())
+                .code(ResultEnum.RESULT_SUCCESS.getCode())
+                .timeStamp()
+                .msg(ResultEnum.RESULT_SUCCESS.getMessage());
+    }
+
+    public static <T> Result<T> ok() {
+        return new Result<T>()
+                .result((T) nullArray)
+                .success(ResultEnum.RESULT_SUCCESS.getSuccess())
+                .code(ResultEnum.RESULT_SUCCESS.getCode())
+                .timeStamp()
+                .msg(ResultEnum.RESULT_SUCCESS.getMessage());
+    }
 
 
     /**
@@ -47,7 +72,7 @@ public class Result<T> implements Serializable {
      * @return
      */
     public static <T> Result<T> error() {
-        return error(ResultCodeEnum.RESULT_SUCCESS.getSuccess(), ResultCodeEnum.BUSINESS_FAIL.getCode(), ResultCodeEnum.BUSINESS_FAIL.getMessage());
+        return error(ResultEnum.BUSINESS_FAIL.getSuccess(), ResultEnum.BUSINESS_FAIL.getCode(), ResultEnum.BUSINESS_FAIL.getMessage());
     }
 
     /**
@@ -55,7 +80,7 @@ public class Result<T> implements Serializable {
      * @param <T>
      * @return
      */
-    public static <T> Result<T> error(ResultCodeEnum error) {
+    public static <T> Result<T> error(ResultEnum error) {
         return error(error.getSuccess(), error.getCode(), error.getMessage());
     }
 
@@ -73,31 +98,6 @@ public class Result<T> implements Serializable {
         msg.message = message;
         msg.code = code;
         return msg.timeStamp();
-    }
-
-    /**
-     * 请求成功  默认code为0 传入对应的返回结果
-     *
-     * @param result
-     * @param <T>
-     * @return
-     */
-    public static <T> Result<T> ok(T result) {
-        return new Result<T>()
-                .result(result)
-                .success(ResultCodeEnum.RESULT_SUCCESS.getSuccess())
-                .code(ResultCodeEnum.RESULT_SUCCESS.getCode())
-                .timeStamp()
-                .msg(ResultCodeEnum.RESULT_SUCCESS.getMessage());
-    }
-
-    public static <T> Result<T> ok() {
-        return new Result<T>()
-                .result((T) nullArray)
-                .success(ResultCodeEnum.RESULT_SUCCESS.getSuccess())
-                .code(ResultCodeEnum.RESULT_SUCCESS.getCode())
-                .timeStamp()
-                .msg(ResultCodeEnum.RESULT_SUCCESS.getMessage());
     }
 
     public Result() {
@@ -125,7 +125,7 @@ public class Result<T> implements Serializable {
     }
 
     private Result<T> timeStamp() {
-        this.timestamp = DateUtil.sysTime();
+        this.timestamp = DateUtil.formatLocalDateTime();
         return this;
     }
 

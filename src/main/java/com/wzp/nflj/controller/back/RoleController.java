@@ -3,7 +3,7 @@ package com.wzp.nflj.controller.back;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.wzp.nflj.config.BaseConfig;
-import com.wzp.nflj.enums.ResultCodeEnum;
+import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.model.Admin;
 import com.wzp.nflj.model.Authority;
 import com.wzp.nflj.model.Role;
@@ -14,7 +14,6 @@ import com.wzp.nflj.util.Result;
 import com.wzp.nflj.vo.IdVO;
 import com.wzp.nflj.vo.RoleVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -59,12 +58,12 @@ public class RoleController extends BaseConfig {
     @PostMapping("delete")
     public Result delete(@RequestBody IdVO idVO) {
         if (ObjUtil.isEmpty(idVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Long id = idVO.getId();
         Optional<Role> optional = roleRepository.findById(id);
         if (!optional.isPresent()) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         roleAuthorityRepository.deleteAllByRole(optional.get());
         adminRoleRepository.deleteAllByRole(optional.get());
@@ -78,12 +77,12 @@ public class RoleController extends BaseConfig {
     @PostMapping("update")
     public Result<Role> update(@RequestBody RoleVO roleVO) {
         if (ObjUtil.isEmpty(roleVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Long id = roleVO.getId();
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (!optionalRole.isPresent()) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         Role role = optionalRole.get();
         if (!ObjUtil.isEmpty(roleVO.getName())) {
@@ -116,11 +115,11 @@ public class RoleController extends BaseConfig {
     @GetMapping("findByAdminId")
     public Result<List<Role>> findByAdmin(IdVO idVO) {
         if (ObjUtil.isEmpty(idVO.getId())) {
-            return Result.error(ResultCodeEnum.LACK_NEEDS_PARAM);
+            return Result.error(ResultEnum.LACK_NEEDS_PARAM);
         }
         Optional<Admin> optional = adminRepository.findById(idVO.getId());
         if (!optional.isPresent()) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         List<Role> list = adminRoleRepository.findRoleByAdmin(optional.get());
         return Result.ok(list);

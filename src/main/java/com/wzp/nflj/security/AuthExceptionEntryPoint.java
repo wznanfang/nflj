@@ -1,7 +1,7 @@
 package com.wzp.nflj.security;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wzp.nflj.enums.ResultCodeEnum;
+import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.util.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -24,7 +24,7 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
         if (request.getRequestURI().indexOf("loginOut") != -1) {
             response.getWriter().write(JSONObject.toJSONString(Result.ok()));
         } else {
-            response.getWriter().write(JSONObject.toJSONString(Result.error(ResultCodeEnum.UNAUTHORIZED)));
+            response.getWriter().write(JSONObject.toJSONString(Result.error(ResultEnum.UNAUTHORIZED)));
         }
     }
 }

@@ -2,10 +2,12 @@ package com.wzp.nflj.util.excel;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +80,7 @@ public class EasyExcelReadListener<T> extends AnalysisEventListener<T> {
      */
     private void saveData() {
         log.info("共有{}条数据，开始存储数据库！", list.size());
+        Method[] methods = clazz.getDeclaredMethods();
         //存储数据库的逻辑
         // 存储完成清理 list
         list.clear();

@@ -1,7 +1,7 @@
 package com.wzp.nflj.controller;
 
 import com.wzp.nflj.config.CustomConfig;
-import com.wzp.nflj.enums.ResultCodeEnum;
+import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.util.*;
 import com.wzp.nflj.util.fileUpload.util.FileUploadUtil;
 import com.wzp.nflj.util.fileUpload.vo.CheckMd5FileVO;
@@ -73,7 +73,7 @@ public class CommonController {
             ResponseEntity<OAuth2AccessToken> responseEntity = tokenEndpoint.postAccessToken(authentication, parameters);
             return Result.ok(responseEntity.getBody());
         } catch (Exception e) {
-            return Result.error(ResultCodeEnum.FORBIDDEN);
+            return Result.error(ResultEnum.FORBIDDEN);
         }
     }
 
@@ -82,7 +82,7 @@ public class CommonController {
     @GetMapping("/loginOut")
     public Result loginOut(@RequestHeader Map<String, Object> headerMap) {
         if (ObjUtil.isEmpty(headerMap.get("access_token"))) {
-            return Result.error(ResultCodeEnum.PARAM_ERROR);
+            return Result.error(ResultEnum.PARAM_ERROR);
         }
         consumerTokenServices.revokeToken(String.valueOf(headerMap.get("access_token")));
         return Result.ok();
@@ -118,7 +118,7 @@ public class CommonController {
             ImageIO.write(image, "png", out);
         } catch (IOException e) {
             log.error("验证码错误:" + e.getMessage());
-            return Result.error(ResultCodeEnum.SYSTEM_ERROR);
+            return Result.error(ResultEnum.SYSTEM_ERROR);
         }
         byte[] bytes = out.toByteArray();
         Map<String, Object> map = new HashMap<>(2);
