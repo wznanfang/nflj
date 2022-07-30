@@ -81,6 +81,7 @@ public class EasyExcelReadListener<T> extends AnalysisEventListener<T> {
     private void saveData() {
         log.info("共有{}条数据，开始存储数据库！", list.size());
         Method[] methods = clazz.getDeclaredMethods();
+
         //存储数据库的逻辑
         // 存储完成清理 list
         list.clear();

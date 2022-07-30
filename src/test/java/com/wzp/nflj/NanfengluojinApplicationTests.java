@@ -1,12 +1,16 @@
 package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
-import com.wzp.nflj.util.Base64Util;
-import com.wzp.nflj.util.reflection.ReflectUtil;
 import com.wzp.nflj.util.rsaSign.RSAEncrypt;
 import com.wzp.nflj.util.rsaSign.RSASignature;
+import com.wzp.nflj.util.Base64Util;
+import com.wzp.nflj.util.DateUtil;
+import com.wzp.nflj.util.reflection.ReflectUtil;
+import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -16,8 +20,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 class NanfengluojinApplicationTests {
@@ -150,6 +157,128 @@ class NanfengluojinApplicationTests {
         System.out.println("---------------公钥校验签名------------------");
         System.out.println("验签结果：" + RSASignature.doCheck(content, signstr, RSAEncrypt.loadPublicKeyByFile(filepath)));
         System.out.println();
+
+    }
+
+
+    //继承Thread
+    public class Threead extends Thread {
+
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + "我是南方");
+        }
+    }
+
+    //实现runnable接口
+    public class Runnablee implements Runnable {
+
+        public Runnablee(String s) {
+        }
+
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + "我是南方");
+        }
+    }
+
+    @Test
+    void test4() {
+//        Threead threead = new Threead();
+//        threead.setName("南方");
+//        threead.start();
+
+//        Runnablee runnablee = new Runnablee();
+//        new Thread(runnablee).start();
+
+        //使用阿里巴巴推荐的创建线程池的方式
+        //通过ThreadPoolExecutor构造函数自定义参数创建
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 6, 3, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy());
+
+        for (int i = 0; i < 10; i++) {
+            //创建WorkerThread对象（WorkerThread类实现了Runnable 接口）
+            Runnable runnablee = new Runnablee("" + i);
+            //执行Runnable
+            executor.execute(runnablee);
+        }
+        //终止线程池
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+        }
+        System.out.println("Finished all threads");
+    }
+
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Test
+    void test5() {
+//        redisTemplate.opsForSet().add("keytest",1,2,3,4,1,2,3);
+//        System.out.println(redisTemplate.opsForSet().members("keytest"));
+//
+//        redisTemplate.opsForZSet().add("成绩","张三",10);
+//        redisTemplate.opsForZSet().add("成绩","李四",30);
+//        redisTemplate.opsForZSet().add("成绩","王麻子",20);
+//        redisTemplate.opsForZSet().add("成绩","南方",40);
+//        redisTemplate.opsForZSet().add("成绩","枯叶",80);
+//        redisTemplate.opsForZSet().add("成绩","落尽",70);
+//        System.out.println(redisTemplate.opsForZSet().range("成绩",0,-1));
+//        System.out.println(redisTemplate.opsForZSet().rangeByScore("成绩",40,80));
+//        System.out.println(redisTemplate.opsForZSet().score("成绩","落尽"));
+
+
+//        String a = "1";
+//        String b = "2";
+//        change(a,b);
+//        System.out.println("a"+a);
+//        System.out.println("b"+b);
+//        int[] arr = { 1, 2, 3, 4, 5 };
+//        System.out.println(arr[0]);
+//        change(arr);
+//        System.out.println(arr[0]);
+
+        redisTemplate.opsForHash().put("1", 1, 1);
+        System.out.println(redisTemplate.opsForHash().get("1", 1));
+        redisTemplate.opsForHash().put("1", 2, 2);
+        System.out.println(redisTemplate.opsForHash().get("1", 2));
+        redisTemplate.opsForHash().put("1", 3, 3);
+        System.out.println(redisTemplate.opsForHash().get("1", 3));
+        redisTemplate.expire("1", 10, TimeUnit.SECONDS);
+        Map<Integer, Integer> map = redisTemplate.opsForHash().entries("1");
+        System.out.println(map);
+
+    }
+
+    public void change(String i, String j) {
+        String temp = i;
+        i = j;
+        j = temp;
+        System.out.println("i" + i);
+        System.out.println("j" + j);
+
+    }
+
+
+    public void change(int[] array) {
+        array[0] = 0;
+    }
+
+
+    @Test
+    void test6() {
+//        ArrayList<Integer>arrayList = new ArrayList<>();
+//        System.out.println(arrayList.size());
+//        arrayList.add(1);
+
+//        HashMap<Integer, Integer> hashMap = new HashMap<>();
+//        hashMap.put(1,1);
+        Integer a = new Integer(1);
+        Integer b = new Integer(1);
+        System.out.println(a == b);
+        Integer c = 1;
+        Integer d = 1;
+        System.out.println(c ==d);
 
     }
 
