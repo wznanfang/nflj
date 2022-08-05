@@ -1,12 +1,10 @@
 package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
+import com.wzp.nflj.util.Base64Util;
+import com.wzp.nflj.util.reflection.ReflectUtil;
 import com.wzp.nflj.util.rsaSign.RSAEncrypt;
 import com.wzp.nflj.util.rsaSign.RSASignature;
-import com.wzp.nflj.util.Base64Util;
-import com.wzp.nflj.util.DateUtil;
-import com.wzp.nflj.util.reflection.ReflectUtil;
-import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,9 +18,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -278,7 +276,7 @@ class NanfengluojinApplicationTests {
         System.out.println(a == b);
         Integer c = 1;
         Integer d = 1;
-        System.out.println(c ==d);
+        System.out.println(c == d);
 
     }
 
