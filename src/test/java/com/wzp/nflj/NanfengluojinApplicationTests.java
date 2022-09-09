@@ -118,8 +118,8 @@ class NanfengluojinApplicationTests {
     @Test
     public void test3() throws Exception {
         //生成公钥和私钥
-        String filepath = "F:/";
-//        RSAEncrypt.genKeyPair(filepath);
+        String filepath = "E:/";
+        RSAEncrypt.genKeyPair(filepath);
 
         System.out.println("--------------公钥加密私钥解密过程-------------------");
         String plainText = "ihep_666666666666";

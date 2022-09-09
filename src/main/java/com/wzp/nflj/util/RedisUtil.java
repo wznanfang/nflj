@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * redis工具类
+ *
  * @Author: zp.wei
  * @DATE: 2020/12/14 11:37
  */

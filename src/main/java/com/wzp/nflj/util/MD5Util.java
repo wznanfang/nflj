@@ -8,6 +8,12 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 
+/**
+ * md5地址工具类
+ *
+ * @Author: zp.wei
+ * @DATE: 2020/10/21 10:45
+ */
 public class MD5Util {
 
     /**
