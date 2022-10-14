@@ -1,6 +1,7 @@
 package com.wzp.nflj.util.phoneaddressUtil;
 
 import com.google.i18n.phonenumbers.PhoneNumberToCarrierMapper;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder;
 
@@ -17,7 +18,7 @@ public class PhoneAddressUtil {
     //找出自治区
     private final static String[] AUTONOMOUS_REGION = {"新疆", "内蒙古", "西藏", "宁夏", "广西"};
 
-    private static com.google.i18n.phonenumbers.PhoneNumberUtil phoneNumberUtil = com.google.i18n.phonenumbers.PhoneNumberUtil.getInstance();
+    private static PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
     //提供与电话号码相关的运营商信息
     private static PhoneNumberToCarrierMapper carrierMapper = PhoneNumberToCarrierMapper.getInstance();
     // 提供与电话号码有关的地理信息
