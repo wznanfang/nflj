@@ -42,6 +42,12 @@ dependencies {
     implementation 'com.alibaba:easyexcel:2.2.9'
     implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.3'
 
+    //根据手机号查询地区
+    implementation 'com.googlecode.libphonenumber:geocoder:2.191'
+    implementation 'com.googlecode.libphonenumber:spring-boot-starter-aop:8.12.55'
+    implementation 'com.googlecode.libphonenumber:prefixmapper:2.191'
+    implementation 'com.googlecode.libphonenumber:carrier:1.181'
+
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
