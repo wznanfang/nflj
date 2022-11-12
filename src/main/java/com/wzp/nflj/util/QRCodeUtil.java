@@ -22,7 +22,7 @@ public class QRCodeUtil {
     private static final String CHARSET = "utf-8";
     private static final String FORMAT_NAME = "JPG";
     // 二维码尺寸
-    private static final int QRCODE_SIZE = 300;
+    private static final int QRCODE_SIZE = 200;
     // LOGO宽度
     private static final int WIDTH = 60;
     // LOGO高度
@@ -86,14 +86,14 @@ public class QRCodeUtil {
 
 
     public static void encode(String content, String imgPath, String destPath, boolean needCompress) throws Exception {
-        BufferedImage image = QRCodeUtil.createImage(content, imgPath, needCompress);
+        BufferedImage image = createImage(content, imgPath, needCompress);
         mkdirs(destPath);
         ImageIO.write(image, FORMAT_NAME, new File(destPath));
     }
 
 
     public static BufferedImage encode(String content, String imgPath, boolean needCompress) throws Exception {
-        return QRCodeUtil.createImage(content, imgPath, needCompress);
+        return createImage(content, imgPath, needCompress);
     }
 
 
@@ -107,13 +107,12 @@ public class QRCodeUtil {
 
 
     public static void encode(String content, OutputStream output) throws Exception {
-        QRCodeUtil.encode(content, null, output, false);
+        encode(content, null, output, false);
     }
 
 
-    public static void encode(String content, String imgPath, OutputStream output, boolean needCompress)
-            throws Exception {
-        BufferedImage image = QRCodeUtil.createImage(content, imgPath, needCompress);
+    public static void encode(String content, String imgPath, OutputStream output, boolean needCompress) throws Exception {
+        BufferedImage image = createImage(content, imgPath, needCompress);
         ImageIO.write(image, FORMAT_NAME, output);
     }
 }
