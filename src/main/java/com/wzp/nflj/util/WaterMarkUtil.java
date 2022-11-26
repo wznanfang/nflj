@@ -1,13 +1,10 @@
 package com.wzp.nflj.util;
 
-import org.springframework.context.annotation.Configuration;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * @author zp.wei

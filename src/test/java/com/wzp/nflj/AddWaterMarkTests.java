@@ -4,10 +4,7 @@ import com.wzp.nflj.util.WaterMarkUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author zp.wei
@@ -34,7 +31,7 @@ public class AddWaterMarkTests {
         String tarImgPath = "C:/Users/南方/Pictures/Camera Roll/" + System.currentTimeMillis() + ".jpg"; //待存储的地址
         String content = "不逆于物，进退沉浮";  //水印内容
         Color color = new Color(37, 139, 194); //水印图片色彩以及透明度
-        WaterMarkUtil.addWaterMark(srcImgPath, tarImgPath, content,content,color, font1);
+        WaterMarkUtil.addWaterMark(srcImgPath, tarImgPath, content, content, color, font1);
     }
 
 
