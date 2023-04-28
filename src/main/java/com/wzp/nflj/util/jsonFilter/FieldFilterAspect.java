@@ -65,14 +65,11 @@ public class FieldFilterAspect {
             if (jsonFilter.excludes().length == 0) {
                 return null;
             } else {
-                PropertyFilter propertyFilter = new PropertyFilter() {
-                    @Override
-                    public boolean apply(Object object, String name, Object value) {
-                        if (Arrays.stream(jsonFilter.excludes()).anyMatch(name::equals) && jsonFilter.target().isInstance(object)) {
-                            return false;
-                        } else {
-                            return true;
-                        }
+                PropertyFilter propertyFilter = (object, name, value) -> {
+                    if (Arrays.stream(jsonFilter.excludes()).anyMatch(name::equals) && jsonFilter.target().isInstance(object)) {
+                        return false;
+                    } else {
+                        return true;
                     }
                 };
                 return propertyFilter;

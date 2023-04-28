@@ -1,6 +1,6 @@
 package com.wzp.nflj.security;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.wzp.nflj.enums.ResultEnum;
 import com.wzp.nflj.util.Result;
 import org.springframework.security.access.AccessDeniedException;
