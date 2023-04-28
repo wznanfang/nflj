@@ -8,13 +8,13 @@ plugins {
 
 group = 'com.wzp'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '17'
 
 repositories {
+    mavenLocal()
     maven {
         url 'https://maven.aliyun.com/repository/public/'
     }
-    mavenLocal()
     mavenCentral()
 }
 
