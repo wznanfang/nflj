@@ -332,8 +332,8 @@ public class RedisUtil {
      * @param key
      * @param hashKey
      */
-    public void hashGet(String key, String hashKey) {
-        redisTemplate.opsForHash().get(key, hashKey);
+    public Object hashGet(String key, String hashKey) {
+        return redisTemplate.opsForHash().get(key, hashKey);
     }
 
 

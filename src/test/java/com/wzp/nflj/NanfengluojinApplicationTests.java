@@ -2,6 +2,7 @@ package com.wzp.nflj;
 
 import com.wzp.nflj.model.Admin;
 import com.wzp.nflj.util.Base64Util;
+import com.wzp.nflj.util.RedisUtil;
 import com.wzp.nflj.util.reflection.ReflectUtil;
 import com.wzp.nflj.util.rsaSign.RSAEncrypt;
 import com.wzp.nflj.util.rsaSign.RSASignature;
@@ -262,21 +263,22 @@ class NanfengluojinApplicationTests {
         array[0] = 0;
     }
 
+    @Autowired
+    RedisUtil redisUtil;
 
     @Test
     void test6() {
-//        ArrayList<Integer>arrayList = new ArrayList<>();
-//        System.out.println(arrayList.size());
-//        arrayList.add(1);
-
-//        HashMap<Integer, Integer> hashMap = new HashMap<>();
-//        hashMap.put(1,1);
-        Integer a = new Integer(1);
-        Integer b = new Integer(1);
-        System.out.println(a == b);
-        Integer c = 1;
-        Integer d = 1;
-        System.out.println(c == d);
+        Map<String, Object> map = new HashMap<>();
+        map.put("1", "1");
+        map.put("2", "2");
+        map.put("3", "3");
+        map.put("4", "4");
+        redisUtil.hashPutAll(String.valueOf(1),map);
+        Object o = redisUtil.hashGet("1", "1");
+        System.out.println(o);
+        redisUtil.hashPut("1","1","2");
+        Object o1 = redisUtil.hashGet("1", "1");
+        System.out.println(o1);
 
     }
 
