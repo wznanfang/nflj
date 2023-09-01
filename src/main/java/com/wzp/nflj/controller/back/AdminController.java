@@ -14,12 +14,12 @@ import com.wzp.nflj.model.Role;
 import com.wzp.nflj.repository.AdminRepository;
 import com.wzp.nflj.repository.AdminRoleRepository;
 import com.wzp.nflj.repository.RoleAuthorityRepository;
+import com.wzp.nflj.service.EasyExcelReadService;
 import com.wzp.nflj.service.EasyExcelWriteService;
 import com.wzp.nflj.util.DateUtil;
 import com.wzp.nflj.util.IpUtil;
 import com.wzp.nflj.util.ObjUtil;
 import com.wzp.nflj.util.Result;
-import com.wzp.nflj.util.excel.EasyExcelReadListener;
 import com.wzp.nflj.util.excel.EasyExcelWriteUtil;
 import com.wzp.nflj.vo.AdminVO;
 import com.wzp.nflj.vo.IdVO;
@@ -212,7 +212,7 @@ public class AdminController extends BaseConfig {
         String filename = request.getParameter("filename");
         // 这里 需要指定用哪个class去读，然后读取第一个sheet 文件流会自动关闭
         //读取多个sheet
-        EasyExcel.read(filename, Admin.class, new EasyExcelReadListener(AdminRepository.class)).doReadAll();
+        EasyExcel.read(filename, Admin.class, new EasyExcelReadService()).doReadAll();
         return Result.ok(ResultEnum.EXCEL_IMPORT_SUCCESS);
     }
 
