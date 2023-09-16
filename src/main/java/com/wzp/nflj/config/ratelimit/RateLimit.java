@@ -1,4 +1,4 @@
-package com.wzp.nflj.config;
+package com.wzp.nflj.config.ratelimit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

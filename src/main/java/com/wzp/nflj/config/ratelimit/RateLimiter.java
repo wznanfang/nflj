@@ -1,5 +1,6 @@
-package com.wzp.nflj.config;
+package com.wzp.nflj.config.ratelimit;
 
+import com.wzp.nflj.config.ratelimit.RateLimit;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
