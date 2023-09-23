@@ -2,18 +2,9 @@ package com.wzp.nflj.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
-
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 采用 JdkSerializationRedisSerializer 进行序列化和反序列化
@@ -24,35 +15,21 @@ import java.util.Set;
 @Configuration
 public class RedisConfig {
 
-
-    /**
-     * 该方式采用 JdkSerializationRedisSerializer 进行序列化和反序列化
-     */
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
-        RedisSerializer jdkSerializationRedisSerializer = new JdkSerializationRedisSerializer();
-        //配置序列化(解决乱码的问题)
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                //设置默认缓存1天
-                .entryTtl(Duration.ofDays(1L))
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(jdkSerializationRedisSerializer))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jdkSerializationRedisSerializer))
-                .disableCachingNullValues();
-        //设置缓存空间
-        Set<String> cacheNames = new HashSet<>();
-        cacheNames.add("nflj");
-        // 对每个缓存空间应用不同的配置
-        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-        configMap.put("nflj", config);
-        RedisCacheManager cacheManager = RedisCacheManager
-                .builder(factory)
-                .cacheDefaults(config)
-                // 注意这两句的调用顺序，一定要先调用该方法设置初始化的缓存名
-                .initialCacheNames(cacheNames)
-                // 再初始化相关的配置
-                .withInitialCacheConfigurations(configMap)
-                .build();
-        return cacheManager;
+    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory factory) {
+        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(factory);
+        // 设置key序列化方式string，RedisSerializer.string() 等价于 new StringRedisSerializer()
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        // 设置value的序列化方式json，使用GenericJackson2JsonRedisSerializer替换默认序列化，RedisSerializer.json() 等价于 new GenericJackson2JsonRedisSerializer()
+        redisTemplate.setValueSerializer(RedisSerializer.json());
+        // 设置hash的key的序列化方式
+        redisTemplate.setHashKeySerializer(RedisSerializer.string());
+        // 设置hash的value的序列化方式
+        redisTemplate.setHashValueSerializer(RedisSerializer.json());
+        // 使配置生效
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
     }
 
 

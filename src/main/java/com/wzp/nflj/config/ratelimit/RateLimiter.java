@@ -1,13 +1,12 @@
 package com.wzp.nflj.config.ratelimit;
 
-import com.wzp.nflj.config.ratelimit.RateLimit;
+import com.wzp.nflj.util.RedisUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
@@ -19,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RateLimiter {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    @Resource
+    private RedisUtil redisUtil;
 
 
     @Around("@annotation(rateLimit)")
@@ -32,16 +31,13 @@ public class RateLimiter {
         long startTime = (currentTime / seconds) * seconds;
         long endTime = startTime + seconds;
         //获取时间段内的请求量
-        long allRequests = redisTemplate.opsForZSet().count(key, startTime, endTime);
+        long allRequests = redisUtil.setCount(key, startTime, endTime);
         if (allRequests > maxLimit) {
             throw new RuntimeException("超过请求限制!");
         }
-        //移除过期的记录
-        long oldestAllowedTime = currentTime - seconds;
-        redisTemplate.opsForZSet().removeRangeByScore(key, 0, oldestAllowedTime);
-        //新增一条记录
-        redisTemplate.opsForZSet().add(key, currentTime, currentTime);
-        redisTemplate.expire(key, seconds + 1, TimeUnit.SECONDS);
+        redisUtil.setRemoveRangeByScore(key, 0L, currentTime - seconds);
+        redisUtil.setAdd(key, currentTime, currentTime);
+        redisUtil.setKeyTime(key, seconds + 1, TimeUnit.SECONDS);
         return joinPoint.proceed();
     }
 

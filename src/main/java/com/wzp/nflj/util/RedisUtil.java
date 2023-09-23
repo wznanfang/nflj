@@ -25,10 +25,15 @@ public class RedisUtil {
      * 指定 key 的过期时间
      *
      * @param key  键
-     * @param time 时间(秒)
+     * @param time 时间
      */
-    public void setKeyTime(String key, long time) {
-        redisTemplate.expire(key, time, TimeUnit.SECONDS);
+    public void setKeyTime(String key, long time, TimeUnit timeUnit) {
+        redisTemplate.expire(key, time, timeUnit);
+    }
+
+
+    public void set(String key, Object val, Long time, TimeUnit timeUnit) {
+        redisTemplate.opsForValue().set(key, val, time, timeUnit);
     }
 
 
@@ -38,8 +43,19 @@ public class RedisUtil {
      * @param key
      * @param val
      */
-    public void set(String key, Object val) {
-        redisTemplate.opsForValue().set(key, val, 1, TimeUnit.DAYS);
+    public void setOneHour(String key, Object val) {
+        set(key, val, 1L, TimeUnit.HOURS);
+    }
+
+
+    /**
+     * 存储数据并设置过期时间,默认有效期为1天
+     *
+     * @param key
+     * @param val
+     */
+    public void setOneDay(String key, Object val) {
+        set(key, val, 1L, TimeUnit.DAYS);
     }
 
 
@@ -79,12 +95,12 @@ public class RedisUtil {
 
 
     /**
-     * 删除key值相同的缓存
+     * 删除key值前缀匹配相同的缓存
      *
      * @param key
      */
     public void delAllByKey(String key) {
-        Set<String> keys = redisTemplate.keys(key + ":*");
+        Set<String> keys = redisTemplate.keys(key + "*");
         if (!ObjUtil.isEmptyList(keys)) {
             redisTemplate.delete(keys);
         }
@@ -334,6 +350,55 @@ public class RedisUtil {
      */
     public Object hashGet(String key, String hashKey) {
         return redisTemplate.opsForHash().get(key, hashKey);
+    }
+
+
+    /**
+     * 存储set类型数据
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public Long setAdd(String key, Set<Object> value) {
+        return redisTemplate.opsForZSet().add(key, value);
+    }
+
+
+    /**
+     * @param key
+     * @param currentTime
+     * @param score
+     * @return
+     */
+    public Boolean setAdd(String key, Long currentTime, Long score) {
+        return redisTemplate.opsForZSet().add(key, currentTime, score);
+    }
+
+
+    /**
+     * 获取范围内的缓存量
+     *
+     * @param key
+     * @param min
+     * @param max
+     * @return
+     */
+    public Long setCount(String key, Long min, Long max) {
+        return redisTemplate.opsForZSet().count(key, min, max);
+    }
+
+
+    /**
+     * 移除范围内的缓存数据
+     *
+     * @param key
+     * @param min
+     * @param max
+     * @return
+     */
+    public Long setRemoveRangeByScore(String key, Long min, Long max) {
+        return redisTemplate.opsForZSet().removeRangeByScore(key, min, max);
     }
 
 
