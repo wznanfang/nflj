@@ -1,11 +1,9 @@
 package com.wzp.nflj.aspect;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wzp.nflj.config.BaseConfig;
 import com.wzp.nflj.model.SysLog;
 import com.wzp.nflj.repository.SysLogRepository;
 import com.wzp.nflj.util.IpUtil;
-import com.wzp.nflj.util.ObjUtil;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -14,7 +12,6 @@ import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
