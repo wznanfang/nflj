@@ -27,7 +27,7 @@ public class RandomUtil {
      *
      * @return
      */
-    public String random() {
+    public static String random() {
         String randomStr = "";
         Random random = new Random();
         for (int i = 0; i < SIZE; i++) {

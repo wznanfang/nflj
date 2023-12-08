@@ -273,10 +273,10 @@ class NanfengluojinApplicationTests {
         map.put("2", "2");
         map.put("3", "3");
         map.put("4", "4");
-        redisUtil.hashPutAll(String.valueOf(1),map);
+        redisUtil.hashPutAll(String.valueOf(1), map);
         Object o = redisUtil.hashGet("1", "1");
         System.out.println(o);
-        redisUtil.hashPut("1","1","2");
+        redisUtil.hashPut("1", "1", "2");
         Object o1 = redisUtil.hashGet("1", "1");
         System.out.println(o1);
 
