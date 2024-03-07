@@ -74,7 +74,7 @@ public class IpUtil {
      */
     public static String getRealIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
-        if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip) && ip.contains(",")) {
+        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip) && ip.contains(",")) {
             // 多次反向代理后会有多个ip值，第一个ip才是真实ip
             ip = ip.split(",")[0];
         }
@@ -100,7 +100,7 @@ public class IpUtil {
     }
 
     private static boolean checkIp(String ip) {
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
             return true;
         }
         return false;

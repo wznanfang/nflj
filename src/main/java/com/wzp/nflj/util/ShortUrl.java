@@ -68,17 +68,17 @@ public class ShortUrl {
             md.reset();
             md.update(b);
             byte[] hash = md.digest();
-            String hs = "";
+            StringBuilder hs = new StringBuilder();
             String stmp = "";
             for (int i = 0; i < hash.length; i++) {
                 stmp = Integer.toHexString(hash[i] & 0xFF);
                 if (stmp.length() == 1) {
-                    hs = hs + "0" + stmp;
+                    hs.append("0").append(stmp);
                 } else {
-                    hs = hs + stmp;
+                    hs.append(stmp);
                 }
             }
-            return hs.toUpperCase();
+            return hs.toString().toUpperCase();
         } catch (Exception e) {
             return "";
         }

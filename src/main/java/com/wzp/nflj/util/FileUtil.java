@@ -144,7 +144,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static String readFile(String fileName) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         try {
             FileInputStream input = new FileInputStream(fileName);
             FileChannel channel = input.getChannel();
@@ -155,14 +155,14 @@ public class FileUtil {
                 bBuf.flip();
                 decoder.decode(bBuf, cBuf, false);
                 bBuf.clear();
-                buf.append(cBuf.array(), 0, cBuf.position());
+                sb.append(cBuf.array(), 0, cBuf.position());
                 cBuf.compact();
             }
             input.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return buf.toString();
+        return sb.toString();
     }
 
 

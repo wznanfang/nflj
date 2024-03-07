@@ -87,8 +87,7 @@ public class RSASignature {
             java.security.Signature signature = java.security.Signature.getInstance(SIGN_ALGORITHMS);
             signature.initVerify(pubKey);
             signature.update(content.getBytes(encode));
-            boolean bverify = signature.verify(Base64Util.decodeStr(sign));
-            return bverify;
+            return signature.verify(Base64Util.decodeStr(sign));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,8 +111,7 @@ public class RSASignature {
             java.security.Signature signature = java.security.Signature.getInstance(SIGN_ALGORITHMS);
             signature.initVerify(pubKey);
             signature.update(content.getBytes());
-            boolean bverify = signature.verify(Base64Util.decodeStr(sign));
-            return bverify;
+            return signature.verify(Base64Util.decodeStr(sign));
         } catch (Exception e) {
             e.printStackTrace();
         }

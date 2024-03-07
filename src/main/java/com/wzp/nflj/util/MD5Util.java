@@ -42,9 +42,9 @@ public class MD5Util {
             byteArray[i] = (byte) charArray[i];
         }
         byte[] md5Bytes = md5.digest(byteArray);
-        StringBuffer hexValue = new StringBuffer();
-        for (int i = 0; i < md5Bytes.length; i++) {
-            int val = ((int) md5Bytes[i]) & 0xff;
+        StringBuilder hexValue = new StringBuilder();
+        for (byte md5Byte : md5Bytes) {
+            int val = ((int) md5Byte) & 0xff;
             if (val < 16) {
                 hexValue.append("0");
             }
@@ -86,9 +86,9 @@ public class MD5Util {
             throw new RuntimeException(e);
         }
         byte[] md5Bytes = md5.digest(byteArray);
-        StringBuffer hexValue = new StringBuffer();
-        for (int i = 0; i < md5Bytes.length; i++) {
-            int val = ((int) md5Bytes[i]) & 0xff;
+        StringBuilder hexValue = new StringBuilder();
+        for (byte md5Byte : md5Bytes) {
+            int val = ((int) md5Byte) & 0xff;
             if (val < 16) {
                 hexValue.append("0");
             }
